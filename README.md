@@ -12,6 +12,6 @@ desenvolvedores de software para desenvolver um sistema de gerenciamento de voos
 # GRUPO
 - João Ricardo Fiuza
 - João Pedro Maciel de Oliveira
-- Gabriel Victor 
+- Gabriel Victor Souza Lopes 
 - Felipe 
 
