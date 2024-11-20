@@ -9,8 +9,8 @@ problemas, como reservas duplicadas e falta de controle sobre a disponibilidade 
 assentos. Para resolver esses problemas, a Voo Seguro contratou uma equipe de
 desenvolvedores de software para desenvolver um sistema de gerenciamento de voos.
 
-#GRUPO
-#João Ricardo Fiuza
-#João Perdro Maciel
-#Gabriel Victor 
-#Felipe 
+# GRUPO
+# João Ricardo Fiuza
+# João Perdro Maciel
+# Gabriel Victor 
+# Felipe 
