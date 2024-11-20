@@ -10,7 +10,7 @@ assentos. Para resolver esses problemas, a Voo Seguro contratou uma equipe de
 desenvolvedores de software para desenvolver um sistema de gerenciamento de voos.
 
 # GRUPO
--e João Ricardo Fiuza
+- João Ricardo Fiuza
 - João Perdro Maciel
 - Gabriel Victor 
 - Felipe 
