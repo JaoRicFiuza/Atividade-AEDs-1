@@ -3,7 +3,7 @@
 ![Status](https://img.shields.io/badge/Status-Em%20Andamento-yellow)
 ![Linguagens](https://img.shields.io/badge/Linguagens-C%20%2F%20C++-blue)
 
-Este projeto foi desenvolvido como parte das disciplinas [Fundamentos de Engenharia de Software (FES)](link_para_disciplina) e [Algoritmos e Estruturas de Dados I (AED1)](link_para_disciplina) do curso de Engenharia de Software da [Pontifícia Universidade Católica de Minas Gerais](link_para_universidade). O objetivo é criar um sistema para gerenciar voos, tripulação e reservas, otimizando os processos da companhia aérea fictícia Voo Seguro.
+Este projeto foi desenvolvido como parte das disciplinas Fundamentos de Engenharia de Software (FES) e Algoritmos e Estruturas de Dados I (AED1) do curso de Engenharia de Software do [Instituto de Ciências Exatas e Informática](https://icei.pucminas.br/?gad_source=1&gclid=CjwKCAiArva5BhBiEiwA-oTnXdCnMa9BwftKnp9VrxYLVeUk7vv-kEKfbODp7snA781vZwaL6BVa8RoCN7sQAvD_BwE) da [Pontifícia Universidade Católica de Minas Gerais](https://www.pucminas.br/destaques/Paginas/default.aspx). O objetivo é criar um sistema para gerenciar voos, tripulação e reservas, otimizando os processos da companhia aérea fictícia Voo Seguro.
 
 ---
 
@@ -36,12 +36,12 @@ Este projeto foi desenvolvido como parte das disciplinas [Fundamentos de Engenha
 ## ✍️ Descrição do Sistema
 O sistema gerencia as seguintes informações da companhia aérea:
 
-1. **🛫 Passageiros:** Cadastro, pesquisa e gerenciamento de dados.
-2. **👨‍✈️ Tripulação:** Cadastro de pilotos, copilotos e comissários.
-3. **✈️ Voos:** Controle de informações como data, hora, origem, destino e tripulação.
-4. **💺 Assentos:** Controle de reservas e disponibilidade.
-5. **📋 Reservas:** Gerenciamento de assentos e cálculo de valores pagos.
-6. **🎯 Fidelidade:** Programa de pontos para passageiros frequentes.
+1. **Passageiros:** Cadastro, pesquisa e gerenciamento de dados.
+2. **Tripulação:** Cadastro de pilotos, copilotos e comissários.
+3. **Voos:** Controle de informações como data, hora, origem, destino e tripulação.
+4. **Assentos:** Controle de reservas e disponibilidade.
+5. **Reservas:** Gerenciamento de assentos e cálculo de valores pagos.
+6. **Fidelidade:** Programa de pontos para passageiros frequentes.
 
 ---
 
@@ -69,6 +69,3 @@ O sistema gerencia as seguintes informações da companhia aérea:
 - **Armazenamento:** Arquivos binários
 - **Metodologia:** Scrum, com planejamento em sprints.
 
----
-
-Se seguir essas sugestões, o README terá um visual mais rico e informativo. Se precisar de ajuda para implementar algum detalhe, só avisar! 😊
