@@ -67,16 +67,16 @@ class Voo{
 int cadastroPassageiro(){
 // Criar funcao para gerar Cod/ Return Codigo do passageiro
 cout << "SEU NOME:";
-cin << Passageiro.nome;
+cin >> Passageiro.nome;
 
 cout << "SEU ENDERECO:";
-cin << Passageiro.endereco;
+cin >> Passageiro.endereco;
 
 cout << "SEU TELEFONE:";
-cin << Passageiro.tel;
+cin >> Passageiro.tel;
 
 cout << "GOSTARIA DE TER FIDELIDADE?:";
-cin << Passageiro.fidelidade;
+cin >> Passageiro.fidelidade;
 
 }
 
