@@ -24,12 +24,12 @@ Este projeto foi desenvolvido como parte das disciplinas Fundamentos de Engenhar
 ---
 
 ## 🧑‍💻 Equipe
-| Nome                        | Função no Projeto                          |
-|-----------------------------|-------------------------------------------|
-| Gabriel Victor Souza Lopes  | Desenvolvimento do módulo de reservas e fidelidade |
-| João Ricardo Fiuza          | Cadastro de passageiros e testes          |
-| João Pedro Maciel           | Gerenciamento de voos                     |
-| Felipe                      | Persistência de dados e integração        |
+| Nome                         | Função no Projeto                          |
+|------------------------------|-------------------------------------------|
+| Gabriel Victor Souza Lopes   | Desenvolvimento do módulo de reservas e fidelidade |
+| João Ricardo Fiuza           | Cadastro de passageiros e testes          |
+| João Pedro Maciel            | Gerenciamento de voos                     |
+| Felipe Augusto Mendes Pereira| Persistência de dados e integração        |
 
 ---
 
