@@ -1,33 +1,53 @@
 #include <iostream>
 #include <string.h>
+#include <fstream> //Biblioteca para manipulação de arquivos
 
 using namespace std;
 
 class Pessoa {
+protected:
     int codigo;
     string nome;
     string endereco;
     int tel;
+
 public:
-    void teste(){
-        cout << "SE LEU MAMOU";
+    Pessoa() : codigo(0), tel (0) {}
+
+    void SetDadosPessoa (int cod, string n, string end, int t) {
+        codigo = cod;
+        nome = n;
+        endereco = end;
+        tel = t;
+    }
+
+    string GetDadosPessoa() {
+        return "Codigo: " + to_string(codigo) + "\nNome: " + nome + "\nEndereco: " + endereco + "\nTelefone: " + to_string(tel);
     }
 };
 
 class Passageiro : public Pessoa {
-    Pessoa.codigo;
-    Pessoa.endereco;
-    Pessoa.nome;
-    Pessoa.tel;
+private:
     int codPassageiro;
     bool fidelidade;
-public:
-     cadastroPassageiro()
 
+public:
+    Passageiro() : codPassageiro(0), fidelidade(false) {}
+
+    void CadastrarPassageiro (int cod, string n, string end, int t, int codPass, bool fid) {
+        SetDadosPessoa(cod, n, end, t);
+        codPassageiro = codPass;
+        fidelidade = fid;
+    }
+
+    string GetDadosPassageiro() {
+        return GetDadosPessoa() + "\nCodigo Passageiro: " + to_string(codPassageiro) + "\nFidelidade: " + (fidelidade ? "Sim" : "Nao" + "\n");
+    }
 };
 
 class Tripulacao : public Pessoa{
-    int cargo // Piloto =1 Copiloto =2 Comissario =3
+    int cargo // Piloto= 1 Copiloto= 2 Comissario= 3
+
     Pessoa.codigo;
     Pessoa.endereco;
     Pessoa.nome;
@@ -46,6 +66,7 @@ class Assento : public Reserva, public Voo{
     bool status;
     Voo.codVoo;
 };
+
 class Voo{
     int codAviao;
     int codComisario;
@@ -55,34 +76,43 @@ class Voo{
 
     int data;
     int hora;
-
     string destino;
-
-    bool status;
     float tarifa;
-
+    
+    bool status;
 };
 
-//FUNCOES
+//Funções
+
+void salvarPassageiroNoArquivo(Passageiro passageiro) {
+    ofstream arquivo("passageiros.txt", ios::app); // Modo append
+    if (arquivo.is_open()) {
+        arquivo << passageiro.getDadosPassageiro() << "------------------\n";
+        arquivo.close();
+        cout << "Passageiro salvo com sucesso!" << endl;
+    } else {
+        cout << "Erro ao salvar passageiro!" << endl;
+    }
+}
+
 int cadastroPassageiro(){
 // Criar funcao para gerar Cod/ Return Codigo do passageiro
-cout << "SEU NOME:";
+cout << "Digite o nome do passageiro:";
 cin >> Passageiro.nome;
-
-cout << "SEU ENDERECO:";
+cout << "Digiteo o endereco do passageiro:";
 cin >> Passageiro.endereco;
-
-cout << "SEU TELEFONE:";
+cout << "Digite o telefone do passageiro:";
 cin >> Passageiro.tel;
-
-cout << "GOSTARIA DE TER FIDELIDADE?:";
+cout << "O passageiro gostaria de participar da fidelidade de Voo: (s/n)";
 cin >> Passageiro.fidelidade;
-
+// chamar função para setar os dados da pessoa?
+salvarPassageiroNoArquivo(Passageiro);
 }
 
 
 
 int main()
 {
-
+    
 }
+
