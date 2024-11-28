@@ -1,16 +1,18 @@
 #include <iostream>
 #include <string.h>
-#include <locale.h>
+#include <random>
+#include <cstdlib>
+#include <ctime> 
 
 using namespace std;
-
+// CLASSES 
 class Pessoa {
 protected:
     int codigo;
     string nome;
     string endereco;
     int tel;
-public:
+public: // GETTERS e SETTERS
     int getCodigo() {
         return codigo;
     }
@@ -48,7 +50,7 @@ class Passageiro : public Pessoa {
 protected:
     int codPassageiro;
     bool fidelidade;
-public:
+public: // GETTERS e SETTERS
     int getCodPassageiro() {
         return codPassageiro;
     }
@@ -69,7 +71,7 @@ public:
 class Tripulacao : public Pessoa {
 protected:
     int cargo;
-public:
+public: // GETTERS e SETTERS
     int getCargo() {
         return cargo;
     }
@@ -91,7 +93,7 @@ protected:
     string destino;
     bool status;
     float tarifa;
-public:
+public: // GETTERS e SETTERS
     int getCodAviao() {
         return codAviao;
     }
@@ -177,7 +179,7 @@ class Assento {
 protected:
     int numAssento;
     bool status;
-public:
+public: // GETTERS e SETTERS
     int getNumAssento() {
         return numAssento;
     }
@@ -200,32 +202,132 @@ protected:
 public:
 };
 
-int cadastroPassageiro() {
+// FUNÇOES PRINCIPAIS 
+
+void cadastroPassageiro() {
     Passageiro p;
     string nome, endereco;
     int telefone;
     bool fidelidade;
 
     cout << "SEU NOME: ";
-    cin >> nome;
+    getline(cin, nome);  
     p.setNome(nome);
 
     cout << "SEU ENDERECO: ";
-    cin >> endereco;
+    getline(cin, endereco);  
     p.setEndereco(endereco);
 
-    cout << "SEU TELEFONE: ";
+    cout << "SEU TELEFONE(sem espacos): ";
     cin >> telefone;
     p.setTel(telefone);
 
     cout << "GOSTARIA DE TER FIDELIDADE? (1 para sim, 0 para nao): ";
     cin >> fidelidade;
     p.setFidelidade(fidelidade);
+ 
+}
+
+void cadastroTripulacao(){
+  cout <<"ENTROU";
+}
+
+void cadastroVoo(){
+    cout <<"ENTROU";
+}
+
+void cadastroAssento(){
+    cout <<"ENTROU";
+}
+
+void reserva(){
+    cout <<"ENTROU";
 
 }
+
+void baixaReserva(){
+    cout <<"ENTROU";
+}
+
+void pesquisa(){
+    cout <<"ENTROU";
+
+}
+
+void programaFid(){
+    cout <<"ENTROU";
+}
+
+void menu() {
+    cout << "        __|__" << endl;
+    cout << "--@--@--(_)--@--@--" << endl;
+    cout << "\n==== MENU ====" << endl;
+    cout << "1. Cadastrar Passageiro" << endl;
+    cout << "2. Cadastrar Tripulacao" << endl;
+    cout << "3. Cadastrar Voo" << endl;
+    cout << "4. Cadastrar Assento" << endl;
+    cout << "5. Realizar Reserva" << endl;
+    cout << "6. Baixa em Reservas" << endl;
+    cout << "7. Pesquisa" << endl;
+    cout << "8. Consultar Programa de Fidelidade" << endl;
+    cout << "9. Sair" << endl;
+    cout << "=====================" << endl;
+}
+
+
 
 int main() {
-    setlocale(LC_ALL, "Portuguese");
-    cadastroPassageiro();
-    return 0;
+   int op;
+    while (op != 9)
+    {
+        menu();  
+        cout << "Escolha uma opcao (1-9): ";
+        cin >> op;  
+
+        switch (op) {
+            case 1:
+                cadastroPassageiro();
+                break;
+            case 2:
+                cadastroTripulacao();
+                break;
+            case 3:
+                cadastroVoo();
+                break;
+            case 4:
+                cadastroAssento();
+                break;
+            case 5:
+                reserva();
+                break;
+            case 6:
+                baixaReserva();
+                break;
+            case 7:
+                pesquisa();
+                break;
+            case 8:
+                programaFid();
+                break;
+            case 9:
+                cout << "Saindo do sistema" << endl;
+                return 0;  
+            default:
+                cout << "Opção inválida! Por favor, escolha um número entre 1 e 9." << endl;
+        }
+    }
+
+    return 0;  
 }
+ 
+     
+        
+
+       
+
+
+
+
+    
+    
+
