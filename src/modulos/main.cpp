@@ -1,333 +1,120 @@
 #include <iostream>
-#include <string.h>
-#include <random>
-#include <cstdlib>
-#include <ctime> 
+#include <vector>
+#include <string>
 
 using namespace std;
-// CLASSES 
-class Pessoa {
-protected:
-    int codigo;
-    string nome;
-    string endereco;
-    int tel;
-public: // GETTERS e SETTERS
-    int getCodigo() {
-        return codigo;
-    }
 
-    void setCodigo(int cod) {
-        codigo = cod;
-    }
 
-    string getNome() {
-        return nome;
-    }
+class Assento {
+public:
+    int numero;
+    string codigoVoo;
+    string status;
 
-    void setNome(string n) {
-        nome = n;
-    }
 
-    string getEndereco() {
-        return endereco;
-    }
-
-    void setEndereco(string e) {
-        endereco = e;
-    }
-
-    int getTel() {
-        return tel;
-    }
-
-    void setTel(int t) {
-        tel = t;
-    }
+    Assento(int num, string codigo, string stat) : numero(num), codigoVoo(codigo), status(stat) {}
 };
 
-class Passageiro : public Pessoa {
-protected:
-    int codPassageiro;
-    bool fidelidade;
-public: // GETTERS e SETTERS
-    int getCodPassageiro() {
-        return codPassageiro;
+
+class Reserva : public Assento {
+public:
+    string codigoPassageiro;
+
+    Reserva(int num, string codigoVoo, string stat, string codigoPassageiro)
+        : Assento(num, codigoVoo, stat), codigoPassageiro(codigoPassageiro) {}
+
+    //  Verificar se um assento está disponível para reserva
+    static bool verificarDisponibilidade(vector<Reserva>& reservas, string codigoVoo, int numero) {
+        for (const auto& reserva : reservas) {
+            if (reserva.codigoVoo == codigoVoo && reserva.numero == numero) {
+                return false;  // Assento já reservado
+            }
+        }
+        return true;  // Assento disponível
     }
 
-    void setCodPassageiro(int codPass) {
-        codPassageiro = codPass;
-    }
-
-    bool getFidelidade() {
-        return fidelidade;
-    }
-
-    void setFidelidade(bool f) {
-        fidelidade = f;
-    }
-};
-
-class Tripulacao : public Pessoa {
-protected:
-    int cargo;
-public: // GETTERS e SETTERS
-    int getCargo() {
-        return cargo;
-    }
-
-    void setCargo(int c) {
-        cargo = c;
+    // Estático para fazer uma reserva
+    static void fazerReserva(vector<Reserva>& reservas, string codigoVoo, int numero, string codigoPassageiro) {
+        if (verificarDisponibilidade(reservas, codigoVoo, numero)) {
+            reservas.push_back(Reserva(numero, codigoVoo, "ocupado", codigoPassageiro));
+            cout << "Reserva feita com sucesso!\n";
+        } else {
+            cout << "Erro: O assento ja esta reservado.\n";
+        }
     }
 };
 
 class Voo {
-protected:
-    int codAviao;
-    int codComisario;
-    int codPiloto;
-    int codCopiloto;
-    int codVoo;
-    int data;
-    int hora;
-    string destino;
-    bool status;
-    float tarifa;
-public: // GETTERS e SETTERS
-    int getCodAviao() {
-        return codAviao;
-    }
-
-    void setCodAviao(int cod) {
-        codAviao = cod;
-    }
-
-    int getCodComisario() {
-        return codComisario;
-    }
-
-    void setCodComisario(int cod) {
-        codComisario = cod;
-    }
-
-    int getCodPiloto() {
-        return codPiloto;
-    }
-
-    void setCodPiloto(int cod) {
-        codPiloto = cod;
-    }
-
-    int getCodCopiloto() {
-        return codCopiloto;
-    }
-
-    void setCodCopiloto(int cod) {
-        codCopiloto = cod;
-    }
-
-    int getCodVoo() {
-        return codVoo;
-    }
-
-    void setCodVoo(int cod) {
-        codVoo = cod;
-    }
-
-    int getData() {
-        return data;
-    }
-
-    void setData(int d) {
-        data = d;
-    }
-
-    int getHora() {
-        return hora;
-    }
-
-    void setHora(int h) {
-        hora = h;
-    }
-
-    string getDestino() {
-        return destino;
-    }
-
-    void setDestino(string dest) {
-        destino = dest;
-    }
-
-    bool getStatus() {
-        return status;
-    }
-
-    void setStatus(bool s) {
-        status = s;
-    }
-
-    float getTarifa() {
-        return tarifa;
-    }
-
-    void setTarifa(float t) {
-        tarifa = t;
-    }
-};
-
-class Assento {
-protected:
-    int numAssento;
-    bool status;
-public: // GETTERS e SETTERS
-    int getNumAssento() {
-        return numAssento;
-    }
-
-    void setNumAssento(int num) {
-        numAssento = num;
-    }
-
-    bool getStatus() {
-        return status;
-    }
-
-    void setStatus(bool s) {
-        status = s;
-    }
-};
-
-class Reserva : public Passageiro, public Voo, public Assento {
-protected:
 public:
-};
+    string codigoVoo;
+    vector<Assento> assentos;  // Lista de assentos do voo
 
-// FUNÃ‡OES PRINCIPAIS 
+    Voo(string codigo) : codigoVoo(codigo) {}
 
-void cadastroPassageiro() {
-    Passageiro p;
-    string nome, endereco;
-    int telefone;
-    bool fidelidade;
+    // Cadastrar um assento no voo
+    void cadastrarAssento(int numero, string status) {
+        assentos.push_back(Assento(numero, codigoVoo, status));
+    }
 
-    cout << "SEU NOME: ";
-    getline(cin, nome);  
-    p.setNome(nome);
-
-    cout << "SEU ENDERECO: ";
-    getline(cin, endereco);  
-    p.setEndereco(endereco);
-
-    cout << "SEU TELEFONE(sem espacos): ";
-    cin >> telefone;
-    p.setTel(telefone);
-
-    cout << "GOSTARIA DE TER FIDELIDADE? (1 para sim, 0 para nao): ";
-    cin >> fidelidade;
-    p.setFidelidade(fidelidade);
- 
-}
-
-void cadastroTripulacao(){
-  cout <<"ENTROU";
-}
-
-void cadastroVoo(){
-    cout <<"ENTROU";
-}
-
-void cadastroAssento(){
-    cout <<"ENTROU";
-}
-
-void reserva(){
-    cout <<"ENTROU";
-
-}
-
-void baixaReserva(){
-    cout <<"ENTROU";
-}
-
-void pesquisa(){
-    cout <<"ENTROU";
-
-}
-
-void programaFid(){
-    cout <<"ENTROU";
-}
-
-void menu() {
-    cout << "        __|__" << endl;
-    cout << "--@--@--(_)--@--@--" << endl;
-    cout << "\n==== MENU ====" << endl;
-    cout << "1. Cadastrar Passageiro" << endl;
-    cout << "2. Cadastrar Tripulacao" << endl;
-    cout << "3. Cadastrar Voo" << endl;
-    cout << "4. Cadastrar Assento" << endl;
-    cout << "5. Realizar Reserva" << endl;
-    cout << "6. Baixa em Reservas" << endl;
-    cout << "7. Pesquisa" << endl;
-    cout << "8. Consultar Programa de Fidelidade" << endl;
-    cout << "9. Sair" << endl;
-    cout << "=====================" << endl;
-}
-
-
-
-int main() {
-   int op;
-    while (op != 9)
-    {
-        menu();  
-        cout << "Escolha uma opcao (1-9): ";
-        cin >> op;  
-
-        switch (op) {
-            case 1:
-                cadastroPassageiro();
-                break;
-            case 2:
-                cadastroTripulacao();
-                break;
-            case 3:
-                cadastroVoo();
-                break;
-            case 4:
-                cadastroAssento();
-                break;
-            case 5:
-                reserva();
-                break;
-            case 6:
-                baixaReserva();
-                break;
-            case 7:
-                pesquisa();
-                break;
-            case 8:
-                programaFid();
-                break;
-            case 9:
-                cout << "Saindo do sistema" << endl;
-                return 0;  
-            default:
-                cout << "OpÃ§Ã£o invÃ¡lida! Por favor, escolha um nÃºmero entre 1 e 9." << endl;
+    // Cadastrar múltiplos assentos no voo
+    void cadastrarAssentos(int numeroInicial, int numeroFinal, string status) {
+        for (int i = numeroInicial; i <= numeroFinal; ++i) {
+            string stat = (i % 2 == 0) ? "ocupado" : "livre";  // Alterna entre ocupado e livre
+            cadastrarAssento(i, stat);
         }
     }
 
-    return 0;  
+    // Mostrar todos os assentos do voo
+    void mostrarAssentos() {
+        for (const auto& assento : assentos) {
+            cout << "Assento: " << assento.numero << ", Voo: " << assento.codigoVoo << ", Status: " << assento.status << endl;
+        }
+    }
+
+    // Escolher um assento livre
+    bool escolherAssentoLivre(int numero) {
+        for (auto& assento : assentos) {
+            if (assento.numero == numero && assento.status == "livre") {
+                assento.status = "ocupado";
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+int main() {
+    // Cria um voo com o código "AB1234"
+    Voo voo("AB1234");
+
+    voo.cadastrarAssentos(1, 10, "livre");
+
+    voo.mostrarAssentos();
+
+    vector<Reserva> reservas;  // Lista de reservas
+
+    int numeroAssento;
+    string codigoPassageiro;
+    bool reservaFeita = false;
+
+    while (!reservaFeita) {
+        cout << "Digite o numero do assento que deseja escolher: ";
+        cin >> numeroAssento;
+        cout << "Digite o codigo do passageiro: ";
+        cin >> codigoPassageiro;
+
+        // Tenta escolher um assento livre
+        if (voo.escolherAssentoLivre(numeroAssento)) {
+            // Faz a reserva se o assento estiver livre
+            Reserva::fazerReserva(reservas, voo.codigoVoo, numeroAssento, codigoPassageiro);
+            reservaFeita = true;
+        } else {
+            cout << "Assento " << numeroAssento << " nao esta disponivel. Tente novamente." << endl;
+        }
+    }
+
+    // Mostra os assentos após a reserva
+    voo.mostrarAssentos();
+
+    return 0;
 }
- 
-     
-        
-
-       
-
-
-
-
-    
-    
-
