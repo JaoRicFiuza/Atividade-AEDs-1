@@ -7,34 +7,32 @@ using namespace std;
 class Assento {
 public:
     int numero;
-    std::string codigoVoo;
-    std::string status;
+    string codigoVoo;
+    string status;
 
-    Assento(int num, std::string codigo, std::string stat) : numero(num), codigoVoo(codigo), status(stat) {}
+    Assento(int num, string codigo, string stat) : numero(num), codigoVoo(codigo), status(stat) {}
 };
 
 class Voo {
 public:
-    std::string codigoVoo;
-    std::vector<Assento> assentos;
+    string codigoVoo;
+    vector<Assento> assentos;
 
-    Voo(std::string codigo) : codigoVoo(codigo) {}
+    Voo(string codigo) : codigoVoo(codigo) {}
 
-    void cadastrarAssento(int numero, std::string status) {
+    void cadastrarAssento(int numero, string status) {
         assentos.push_back(Assento(numero, codigoVoo, status));
     }
 
-    void cadastrarAssentosRecursivo(int numeroInicial, int numeroFinal, std::string status) {
-        if (numeroInicial > numeroFinal) {
-            return;
+    void cadastrarAssentos(int numeroInicial, int numeroFinal, string status) {
+        for (int i = numeroInicial; i <= numeroFinal; ++i) {
+            cadastrarAssento(i, status);
         }
-        cadastrarAssento(numeroInicial, status);
-        cadastrarAssentosRecursivo(numeroInicial + 1, numeroFinal, status);
     }
 
     void mostrarAssentos() {
         for (const auto& assento : assentos) {
-            std::cout << "Assento: " << assento.numero << ", Voo: " << assento.codigoVoo << ", Status: " << assento.status << std::endl;
+            cout << "Assento: " << assento.numero << ", Voo: " << assento.codigoVoo << ", Status: " << assento.status << endl;
         }
     }
 
@@ -51,17 +49,17 @@ public:
 
 int main() {
     Voo voo("AB0901");
-    voo.cadastrarAssentosRecursivo(1, 5, "livre");
+    voo.cadastrarAssentos(1, 5, "livre");
     voo.mostrarAssentos();
 
     int numeroAssento;
-    std::cout << "Digite o numero do assento que deseja escolher: ";
-    std::cin >> numeroAssento;
+    cout << "Digite o numero do assento que deseja escolher: ";
+    cin >> numeroAssento;
 
     if (voo.escolherAssentoLivre(numeroAssento)) {
-        std::cout << "Assento " << numeroAssento << " escolhido com sucesso!" << std::endl;
+        cout << "Assento " << numeroAssento << " escolhido com sucesso!" << endl;
     } else {
-        std::cout << "Assento " << numeroAssento << " não está disponível." << std::endl;
+        cout << "Assento " << numeroAssento << " nÃ£o estÃ¡ disponÃ­vel." << endl;
     }
 
     voo.mostrarAssentos();
