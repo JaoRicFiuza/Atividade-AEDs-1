@@ -203,7 +203,7 @@ protected:
 public:
 };
 
-//FUNÇÕES DO CODIGO
+// FUNÇOES PRINCIPAIS
 
 // Função para criar códigos sequenciais de passageiros
 int gerarCodigo() {
@@ -257,17 +257,21 @@ void cadastroPassageiro() {
 
     // Entrada de dados
     cout << "Digite o nome do passageiro: ";
-    cin.ignore(); // Ignorar o buffer
+    cin.ignore(); // Ignorar o buffer // Trocar CIN ignore
     getline(cin, nome);
+    p.setNome(nome);cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Digite o endereco do passageiro: ";
     getline(cin, endereco);
+    p.setEndereco(endereco);cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Digite o telefone do passageiro: ";
     cin >> telefone;
+    p.setTel(telefone);cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "O passageiro deseja participar do programa de fidelidade? (s/n): ";
     cin >> fidelidadeChar;
+    p.setFidelidade(fidelidade);cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     // Converte 's' ou 'n' em valor booleano
     fidelidade = (fidelidadeChar == 's' || fidelidadeChar == 'S');
@@ -288,27 +292,28 @@ void cadastroPassageiro() {
     cout << "Nome: " << p.getNome() << endl;
     cout << "Endereco: " << p.getEndereco() << endl;
     cout << "Telefone: " << p.getTel() << endl;
-    cout << "Fidelidade: " << (p.getFidelidade() ? "Sim" : "Nao") << endl;
+    cout << "Fidelidade: " << (p.getFidelidade() ? "Sim" : "Nao") << endl << endl;
 }
-
-void menu() {
-    cout << "        __|__" << endl;
-    cout << "--@--@--(_)--@--@--" << endl;
-    cout << "\n==== MENU ====" << endl;
-    cout << "1. Cadastrar Passageiro" << endl;
-    cout << "2. Cadastrar Tripulacao" << endl;
-    cout << "3. Cadastrar Voo" << endl;
-    cout << "4. Cadastrar Assento" << endl;
-    cout << "5. Realizar Reserva" << endl;
-    cout << "6. Baixa em Reservas" << endl;
-    cout << "7. Pesquisa" << endl;
-    cout << "8. Consultar Programa de Fidelidade" << endl;
-    cout << "9. Sair" << endl;
-    cout << "=====================" << endl;
-}
-
 void cadastroTripulacao(){
-  cout <<"ENTROU";
+  Tripulacao t;
+    string nome, endereco;
+    int telefone, cargo;
+
+    cout << "SEU NOME: ";
+    getline(cin, nome);
+    t.setNome(nome);cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "SEU ENDERECO: ";
+    getline(cin, endereco);
+    t.setEndereco(endereco);cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "SEU TELEFONE(sem espacos): ";
+    cin >> telefone;
+    t.setTel(telefone);cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "SEU CARGO 1- PILOTO 2-COPILOTO 3-COMISSARIO:";
+    cin >>cargo;
+    t.setCargo(cargo);
 }
 
 void cadastroVoo(){
@@ -336,6 +341,24 @@ void pesquisa(){
 void programaFid(){
     cout <<"ENTROU";
 }
+
+void menu() {
+    cout << "        |" << endl;
+    cout << "--@--@--(_)--@--@--" << endl;
+    cout << "\n==== MENU ====" << endl;
+    cout << "1. Cadastrar Passageiro" << endl;
+    cout << "2. Cadastrar Tripulacao" << endl;
+    cout << "3. Cadastrar Voo" << endl;
+    cout << "4. Cadastrar Assento" << endl;
+    cout << "5. Realizar Reserva" << endl;
+    cout << "6. Baixa em Reservas" << endl;
+    cout << "7. Pesquisa" << endl;
+    cout << "8. Consultar Programa de Fidelidade" << endl;
+    cout << "9. Sair" << endl;
+    cout << "=====================" << endl;
+}
+
+
 
 int main() {
    int op;
