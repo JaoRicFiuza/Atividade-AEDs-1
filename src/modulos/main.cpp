@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <fstream> //Biblioteca para manipulação de arquivos
+#include <string>
 
 using namespace std;
 
@@ -12,9 +13,9 @@ protected:
     int tel;
 
 public:
-    Pessoa() : codigo(0), tel (0) {}
+    Pessoa() : codigo(0), tel(0) {}
 
-    void SetDadosPessoa (int cod, string n, string end, int t) {
+    void SetDadosPessoa(int cod, string n, string end, int t) {
         codigo = cod;
         nome = n;
         endereco = end;
@@ -41,8 +42,9 @@ public:
     }
 
     string GetDadosPassageiro() {
-        return GetDadosPessoa() + "\nCodigo Passageiro: " + to_string(codPassageiro) + "\nFidelidade: " + (fidelidade ? "Sim" : "Nao" + "\n");
-    }
+    return GetDadosPessoa() + "\nCodigo Passageiro: " + to_string(codPassageiro) + "\nFidelidade: " + (fidelidade ? "Sim" : "Nao") + "\n";
+}
+
 };
 
 class Tripulacao : public Pessoa{
@@ -87,7 +89,7 @@ class Voo{
 void salvarPassageiroNoArquivo(Passageiro passageiro) {
     ofstream arquivo("passageiros.txt", ios::app); // Modo append
     if (arquivo.is_open()) {
-        arquivo << passageiro.getDadosPassageiro() << "------------------\n";
+        arquivo << passageiro.GetDadosPassageiro() << "------------------\n";
         arquivo.close();
         cout << "Passageiro salvo com sucesso!" << endl;
     } else {
@@ -95,24 +97,59 @@ void salvarPassageiroNoArquivo(Passageiro passageiro) {
     }
 }
 
-int cadastroPassageiro(){
-// Criar funcao para gerar Cod/ Return Codigo do passageiro
-cout << "Digite o nome do passageiro:";
-cin >> Passageiro.nome;
-cout << "Digiteo o endereco do passageiro:";
-cin >> Passageiro.endereco;
-cout << "Digite o telefone do passageiro:";
-cin >> Passageiro.tel;
-cout << "O passageiro gostaria de participar da fidelidade de Voo: (s/n)";
-cin >> Passageiro.fidelidade;
-// chamar função para setar os dados da pessoa?
-salvarPassageiroNoArquivo(Passageiro);
+string CriarCodigoPassageiro() {
+    string linha;
+    int ultimoCodigo = 0;
+    ifstream arquivo("passageiros.txt");
+
+    if (arquivo.is_open()) {
+        while (getline(arquivo, linha)) {
+            // Verifica se a linha contém o prefixo "Código do Passageiro: P"
+            if (linha.find("Código do Passageiro: P") == 0) {
+                int novoCodigo = stoi(linha.substr(23)); // Extrai o número do código
+                if (novoCodigo > ultimoCodigo) {
+                    ultimoCodigo = novoCodigo;
+                }
+            }
+        }
+        arquivo.close();
+    } else {
+        cout << "Erro ao abrir o arquivo!" << endl;
+    }
+
+    ultimoCodigo++;  // Incrementa o último código para o próximo
+    return "P" + to_string(ultimoCodigo); // Gera o novo código de passageiro com prefixo 'P'
 }
 
+void cadastroPassageiro(){
+    Passageiro p; // Cria um objeto Passageiro
 
+    string nome, endereco, codPassageiro;
+    int telefone;
+    char fidelidade;
+
+    // Criar funcao para gerar Cod/ Return Codigo do passageiro
+    cout << "Digite o nome do passageiro:";
+    cin >> nome;
+    cout << "Digiteo o endereco do passageiro:";
+    cin >> endereco;
+    cout << "Digite o telefone do passageiro:";
+    cin >> telefone;
+    cout << "O passageiro gostaria de participar da fidelidade de Voo: (s/n)";
+    cin >> fidelidade;
+
+    codPassageiro = CriarCodigoPassageiro(); // Gera o código do passageiro
+
+    // Setando os dados no objeto Passageiro
+    p.CadastrarPassageiro(stoi(codPassageiro.substr(1)), nome, endereco, telefone, fidelidade == 's');
+
+    // Salvando o passageiro no arquivo
+    salvarPassageiroNoArquivo(p);
+}
 
 int main()
 {
-    
+    cadastroPassageiro();
+    return 0;
 }
 
