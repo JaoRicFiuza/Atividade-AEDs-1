@@ -12,7 +12,7 @@ protected:
     int codigo;
     string nome;
     string endereco;
-    int tel;
+    string tel;
 public: // GETTERS e SETTERS
     int getCodigo() {
         return codigo;
@@ -38,11 +38,11 @@ public: // GETTERS e SETTERS
         endereco = e;
     }
 
-    int getTel() {
+    string getTel() {
         return tel;
     }
 
-    void setTel(int t) {
+    string setTel(string t) {
         tel = t;
     }
 };
@@ -251,27 +251,24 @@ void cadastroPassageiro() {
     Passageiro p; // Criando um objeto Passageiro
 
     string nome, endereco;
-    int telefone;
+    string telefone;
     char fidelidadeChar; // Para capturar entrada do usuário
     bool fidelidade;     // Valor booleano derivado da entrada
 
     // Entrada de dados
     cout << "Digite o nome do passageiro: ";
-    cin.ignore(); // Ignorar o buffer // Trocar CIN ignore
+    cin.ignore(); // Ignorar o buffer
     getline(cin, nome);
-    p.setNome(nome);cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Digite o endereco do passageiro: ";
     getline(cin, endereco);
-    p.setEndereco(endereco);cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "Digite o telefone do passageiro: ";
     cin >> telefone;
-    p.setTel(telefone);cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     cout << "O passageiro deseja participar do programa de fidelidade? (s/n): ";
     cin >> fidelidadeChar;
-    p.setFidelidade(fidelidade);cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     // Converte 's' ou 'n' em valor booleano
     fidelidade = (fidelidadeChar == 's' || fidelidadeChar == 'S');
@@ -296,8 +293,8 @@ void cadastroPassageiro() {
 }
 void cadastroTripulacao(){
   Tripulacao t;
-    string nome, endereco;
-    int telefone, cargo;
+    string nome, endereco, telefone;
+    int cargo;
 
     cout << "SEU NOME: ";
     getline(cin, nome);
