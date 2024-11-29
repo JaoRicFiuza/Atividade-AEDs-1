@@ -1,9 +1,9 @@
-# 📘 Documentação da Sprint - Projeto
+# 📘 Documentação da Sprint 1
 
 ## 🛠 Informações Gerais
 
 - **Sprint:** Inicial
-- **Período:** 21/11 a 25/11
+- **Período:** 21/11 a 28/11
 - **Metodologia:** Scrum
 
 ## 🎯 Objetivos
@@ -72,3 +72,5 @@ A Sprint inicial teve como foco principal:
 ## 🖇 Links Relacionados
 
 - **Board do Scrum:** [(https://github.com/users/GabrielVSL/projects/2/views/1)]
+
+# 📘 Documentação da Sprint 2
