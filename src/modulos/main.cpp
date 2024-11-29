@@ -196,6 +196,34 @@ public: // GETTERS e SETTERS
     void setStatus(bool s) {
         status = s;
     }
+
+    Assento(int num, string codigo, string stat) : numAssento(num), status(stat == "livre") {}
+
+    static void cadastrarAssento(vector<Assento>& assentos, int numero, string status) {
+        assentos.push_back(Assento(numero, "", status));
+    }
+
+    static void cadastrarAssentos(vector<Assento>& assentos, int numeroInicial, int numeroFinal, string status) {
+        for (int i = numeroInicial; i <= numeroFinal; ++i) {
+            cadastrarAssento(assentos, i, status);
+        }
+    }
+
+    static void mostrarAssentos(const vector<Assento>& assentos) {
+        for (const auto& assento : assentos) {
+            cout << "Assento: " << assento.numAssento << ", Status: " << (assento.status ? "livre" : "ocupado") << endl;
+        }
+    }
+
+    static bool escolherAssentoLivre(vector<Assento>& assentos, int numero) {
+        for (auto& assento : assentos) {
+            if (assento.numAssento == numero && assento.status) {
+                assento.status = false;
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 class Reserva : public Passageiro, public Voo, public Assento {
