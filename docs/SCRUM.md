@@ -71,6 +71,6 @@ A Sprint inicial teve como foco principal:
 
 ## 🖇 Links Relacionados
 
-- **Board do Scrum:** [(https://github.com/users/GabrielVSL/projects/2/views/1)]
+- **Board do Scrum:** [https://github.com/users/GabrielVSL/projects/2/views/1]
 
 # 📘 Documentação da Sprint 2
