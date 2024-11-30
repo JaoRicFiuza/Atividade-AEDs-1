@@ -368,7 +368,7 @@ void programaFid(){
 }
 
 void menu() {
-    cout << "        |" << endl;
+    cout << "         |" << endl;
     cout << "--@--@--(_)--@--@--" << endl;
     cout << "\n==== MENU ====" << endl;
     cout << "1. Cadastrar Passageiro" << endl;
