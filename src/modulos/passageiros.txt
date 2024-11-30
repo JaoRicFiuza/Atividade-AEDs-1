@@ -1,0 +1,7 @@
+Codigo: 1
+Nome: Joaquim
+Endereco: Rua
+Telefone: 0
+Codigo Passageiro: P1
+Fidelidade: Nao
+------------------
