@@ -1,7 +1,7 @@
 # ✈️ Sistema de Gerenciamento de Voos - Voo Seguro
 
 ![Status](https://img.shields.io/badge/Status-Em%20Andamento-yellow)
-![Linguagens](https://img.shields.io/badge/Linguagens-C%20%2F%20C++-blue)
+![Linguagens](Linguagens-C%20%2F%20C++-blue)
 
 Este projeto foi desenvolvido como parte das disciplinas Fundamentos de Engenharia de Software (FES) e Algoritmos e Estruturas de Dados I (AED1) do curso de Engenharia de Software do [Instituto de Ciências Exatas e Informática](https://icei.pucminas.br/?gad_source=1&gclid=CjwKCAiArva5BhBiEiwA-oTnXdCnMa9BwftKnp9VrxYLVeUk7vv-kEKfbODp7snA781vZwaL6BVa8RoCN7sQAvD_BwE) da [Pontifícia Universidade Católica de Minas Gerais](https://www.pucminas.br/destaques/Paginas/default.aspx). O objetivo é criar um sistema para gerenciar voos, tripulação e reservas, otimizando os processos da companhia aérea fictícia Voo Seguro.
 
@@ -24,12 +24,12 @@ Este projeto foi desenvolvido como parte das disciplinas Fundamentos de Engenhar
 ---
 
 ## 🧑‍💻 Equipe
-| Nome                         | Função no Projeto                          |
-|------------------------------|-------------------------------------------|
-| Gabriel Victor Souza Lopes   | Desenvolvimento do módulo de reservas e fidelidade |
-| João Ricardo Fiuza           | Cadastro de passageiros e testes          |
-| João Pedro Maciel            | Gerenciamento de voos                     |
-| Felipe Augusto Mendes Pereira| Persistência de dados e integração        |
+| Nome                         | Função no Projeto                                            |
+|------------------------------|--------------------------------------------------------------|
+| Gabriel Victor Souza Lopes   | Cadastro de Passageiros, Organização do Repositório e Testes |
+| João Ricardo Fiuza           | Desenvolvimento do Modulo de assento                         |
+| João Pedro Maciel            | Cadastro de tripulação, Gerenciamento de voos                |
+| Felipe Augusto Mendes Pereira| Documentação                                                 |
 
 ---
 
@@ -65,7 +65,7 @@ O sistema gerencia as seguintes informações da companhia aérea:
 ---
 
 ## 🛠 Tecnologias Utilizadas
-- **Linguagens:** C/C++
+- **Linguagens:** C++
 - **Armazenamento:** Arquivos binários
 - **Metodologia:** Scrum, com planejamento em sprints.
 
