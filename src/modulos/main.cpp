@@ -319,6 +319,7 @@ void cadastroPassageiro() {
     cout << "Telefone: " << p.getTel() << endl;
     cout << "Fidelidade: " << (p.getFidelidade() ? "Sim" : "Nao") << endl << endl;
 }
+
 void cadastroTripulacao(){
   Tripulacao t;
     string nome, endereco, telefone;
