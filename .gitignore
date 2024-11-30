@@ -1,3 +1,12 @@
 .vs/
 desktop.ini
 
+# Ignorar arquivos de build e binários
+*.o
+main.exe
+bin/
+obj/
+*.depend
+Passageiro.layout
+Passageiro.cbp
+
