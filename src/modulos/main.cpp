@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 // CLASSES
@@ -42,7 +43,7 @@ public: // GETTERS e SETTERS
         return tel;
     }
 
-    string setTel(string t) {
+    void setTel(string t) {
         tel = t;
     }
 };
@@ -80,6 +81,7 @@ public: // GETTERS e SETTERS
     void setCargo(int c) {
         cargo = c;
     }
+
 };
 
 class Voo {
@@ -89,9 +91,9 @@ protected:
     int codPiloto;
     int codCopiloto;
     int codVoo;
-    int data;
-    int hora;
-    string destino;
+    string data;
+    string hora;
+    string destino, origem;
     bool status;
     float tarifa;
 public: // GETTERS e SETTERS
@@ -135,19 +137,19 @@ public: // GETTERS e SETTERS
         codVoo = cod;
     }
 
-    int getData() {
+    string getData() {
         return data;
     }
 
-    void setData(int d) {
+    void setData(string d) {
         data = d;
     }
 
-    int getHora() {
+    string getHora() {
         return hora;
     }
 
-    void setHora(int h) {
+    void setHora(string h) {
         hora = h;
     }
 
@@ -174,6 +176,14 @@ public: // GETTERS e SETTERS
     void setTarifa(float t) {
         tarifa = t;
     }
+
+    string getOrigem(){
+        return origem;
+    }
+
+    void setOrigem(string o){
+        origem = o;
+    }
 };
 
 class Assento {
@@ -196,34 +206,6 @@ public: // GETTERS e SETTERS
     void setStatus(bool s) {
         status = s;
     }
-
-    Assento(int num, string codigo, string stat) : numAssento(num), status(stat == "livre") {}
-
-    static void cadastrarAssento(vector<Assento>& assentos, int numero, string status) {
-        assentos.push_back(Assento(numero, "", status));
-    }
-
-    static void cadastrarAssentos(vector<Assento>& assentos, int numeroInicial, int numeroFinal, string status) {
-        for (int i = numeroInicial; i <= numeroFinal; ++i) {
-            cadastrarAssento(assentos, i, status);
-        }
-    }
-
-    static void mostrarAssentos(const vector<Assento>& assentos) {
-        for (const auto& assento : assentos) {
-            cout << "Assento: " << assento.numAssento << ", Status: " << (assento.status ? "livre" : "ocupado") << endl;
-        }
-    }
-
-    static bool escolherAssentoLivre(vector<Assento>& assentos, int numero) {
-        for (auto& assento : assentos) {
-            if (assento.numAssento == numero && assento.status) {
-                assento.status = false;
-                return true;
-            }
-        }
-        return false;
-    }
 };
 
 class Reserva : public Passageiro, public Voo, public Assento {
@@ -234,7 +216,7 @@ public:
 // FUNÇOES PRINCIPAIS
 
 // Função para criar códigos sequenciais de passageiros
-int gerarCodigo() {
+int gerarCodigoPassageiro() {
     ifstream arquivoEntrada("codigos_passageiros.txt");
     ofstream arquivoSaida;
     int ultimoCodigo = 0;
@@ -274,9 +256,9 @@ void salvarPassageiroNoArquivo(Passageiro& p) {
         cout << "Erro ao abrir o arquivo para salvar!" << endl;
     }
 }
-
+// Finção para cadastrar passageiro
 void cadastroPassageiro() {
-    Passageiro p; // Criando um objeto Passageiro
+    vector<Passageiro> p; // Criando um vetor do objeto passageiro
 
     string nome, endereco;
     string telefone;
@@ -292,8 +274,8 @@ void cadastroPassageiro() {
     getline(cin, endereco);
 
     cout << "Digite o telefone do passageiro: ";
-    cin >> telefone;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    getline(cin, telefone);
+
 
     cout << "O passageiro deseja participar do programa de fidelidade? (s/n): ";
     cin >> fidelidadeChar;
@@ -302,48 +284,192 @@ void cadastroPassageiro() {
     fidelidade = (fidelidadeChar == 's' || fidelidadeChar == 'S');
 
     // Geração do código único para o passageiro
-    int CodPassageiro;
+    int CodPassageiro = gerarCodigoPassageiro();
 
     // Configurando os atributos do passageiro
-    p.setCodPassageiro(CodPassageiro);
-    p.setNome(nome);
-    p.setEndereco(endereco);
-    p.setTel(telefone);
-    p.setFidelidade(fidelidade);
+
+    Passageiro novoPassageiro; // Instanciando um novo objeto
+    novoPassageiro.setCodPassageiro(CodPassageiro);
+    novoPassageiro.setNome(nome);
+    novoPassageiro.setEndereco(endereco);
+    novoPassageiro.setTel(telefone);
+    novoPassageiro.setFidelidade(fidelidade);
+
+    p.push_back(novoPassageiro); // Adiciona um novo objeto no vetor
 
     // Exibindo os dados cadastrados
     cout << "\nPassageiro cadastrado com sucesso!\n";
-    cout << "Codigo do Passageiro: " << p.getCodPassageiro() << endl;
-    cout << "Nome: " << p.getNome() << endl;
-    cout << "Endereco: " << p.getEndereco() << endl;
-    cout << "Telefone: " << p.getTel() << endl;
-    cout << "Fidelidade: " << (p.getFidelidade() ? "Sim" : "Nao") << endl << endl;
+    cout << "Codigo do Passageiro: " << novoPassageiro.getCodPassageiro() << endl;
+    cout << "Nome: " << novoPassageiro.getNome() << endl;
+    cout << "Endereco: " << novoPassageiro.getEndereco() << endl;
+    cout << "Telefone: " << novoPassageiro.getTel() << endl;
+    cout << "Fidelidade: " << (novoPassageiro.getFidelidade() ? "Sim" : "Nao") << endl << endl;
+
+    salvarPassageiroNoArquivo(novoPassageiro);
+}
+// Função para salvar as informações do passageiro no arquivo
+void salvarTripulacaoNoArquivo(Tripulacao& t){
+    ofstream arquivo("tripulacao.txt", ios::app); // Modo append
+    if (arquivo.is_open()) {
+        arquivo << "Codigo do Tripulante: " << t.getCodigo() << endl;
+        arquivo << "Nome: " << t.getNome() << endl;
+        arquivo << "Endereco: " << t.getEndereco() << endl;
+        arquivo << "Telefone: " << t.getTel() << endl;
+        arquivo << "Cargo: " << t.getCargo() << endl;
+        arquivo << "-------------------------" << endl;
+        arquivo.close();
+        cout << "Tripulante salvo com sucesso!" << endl;
+    } else {
+        cout << "Erro ao abrir o arquivo para salvar!" << endl;
+    }
+
+}
+// Função para criar códigos sequenciais de passageiros
+int gerarCodigoTripulante(){
+    ifstream arquivoEntrada("codigos_tripulante.txt");
+    ofstream arquivoSaida;
+    int ultimoCodigo = 0;
+
+    // Lê o último código do arquivo, se existir
+    if (arquivoEntrada.is_open()) {
+        arquivoEntrada >> ultimoCodigo;
+        arquivoEntrada.close();
+    }
+
+    // Incrementa o código
+    int novoCodigo = ultimoCodigo + 1;
+
+    // Salva o novo código no arquivo
+    arquivoSaida.open("codigos_tripulante.txt", ios::trunc); // Sobrescreve o arquivo
+    if (arquivoSaida.is_open()) {
+        arquivoSaida << novoCodigo;
+        arquivoSaida.close();
+    }
+
+    return novoCodigo;
+
+}
+ vector<Tripulacao> t;
+void cadastroTripulacao(){
+
+  string nome, endereco, telefone;
+  int cargo, cod;
+    // Entrada de dados
+    cout << "Digite o nome do tripulante: ";
+    cin.ignore(); // Ignorar o buffer
+    getline(cin, nome);
+
+    cout << "Digite o endereco do tripulante: ";
+    getline(cin, endereco);
+
+    cout << "Digite o telefone do tripulante: ";
+    getline(cin, telefone);
+
+    do {
+        cout << "Digite seu cargo (1-Piloto(a) 2-Copiloto(a) 3-Comissario(a)): ";
+        cin >> cargo;
+        if (cargo < 1 || cargo > 3) {
+            cout << "Cargo inválido. Tente novamente.\n";
+            }
+        }while (cargo < 1 || cargo > 3);
+
+    cod = gerarCodigoTripulante();
+
+    Tripulacao novoTripulante;
+    novoTripulante.setNome(nome);
+    novoTripulante.setEndereco(endereco);
+    novoTripulante.setTel(telefone);
+    novoTripulante.setCargo(cargo);
+    novoTripulante.setCodigo(cod);
+
+    t.push_back(novoTripulante);
+
+    salvarTripulacaoNoArquivo(novoTripulante);
+    cout << "\Tripulante cadastrado com sucesso!\n";
+    cout << "Codigo do Tripulante: " << novoTripulante.getCodigo() << endl;
+    cout << "Nome: " << novoTripulante.getNome() << endl;
+    cout << "Endereco: " << novoTripulante.getEndereco() << endl;
+    cout << "Telefone: " << novoTripulante.getTel() << endl;
 }
 
-void cadastroTripulacao(){
-  Tripulacao t;
-    string nome, endereco, telefone;
-    int cargo;
-
-    cout << "SEU NOME: ";
-    getline(cin, nome);
-    t.setNome(nome);cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "SEU ENDERECO: ";
-    getline(cin, endereco);
-    t.setEndereco(endereco);cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "SEU TELEFONE(sem espacos): ";
-    cin >> telefone;
-    t.setTel(telefone);cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "SEU CARGO 1- PILOTO 2-COPILOTO 3-COMISSARIO:";
-    cin >>cargo;
-    t.setCargo(cargo);
+// Funçao para verificar os codigos dos comissarios
+bool verificarCodigoTripulacao(int cod){
+    for(int i=0; i<t.size();i++){
+        if (t[i].getCodigo() == cod){
+            return true;
+        }
+    }
+return false;
 }
 
 void cadastroVoo(){
-    cout <<"ENTROU";
+    vector <Voo> v;
+    int codAviao,codComisario,codPiloto,codCopiloto,codVoo;
+    string data,hora,destino,origem;
+    bool status;
+    float tarifa;
+
+    cout << "Digite a origem do Voo: ";
+    cin.ignore(); // Ignorar o buffer
+    getline(cin, origem);
+
+    cout << "Digite o destino do Voo: ";
+    cin.ignore(); // Ignorar o buffer
+    getline(cin, destino);
+
+    cout << "Digite a data do Voo: ";
+    cin.ignore(); // Ignorar o buffer
+    getline(cin, data);
+
+    cout << "Digite a hora do Voo: ";
+    cin.ignore(); // Ignorar o buffer
+    getline(cin, hora);
+
+    cout << "Digite a tarifa do Voo: ";
+    cin >>tarifa;
+
+
+
+    do{
+        cout << "Digite o Codigo do Piloto(a): ";
+        cin >>codPiloto;
+        if(!verificarCodigoTripulacao(codPiloto)){
+        cout<<"Piloto Nao Encontrado, tente novamente: "<<endl;
+    }}while(!verificarCodigoTripulacao(codPiloto));
+    cout <<"Piloto adicionada com sucesso a Tripulacao!"<<endl;
+
+    do{
+        cout << "Digite o Codigo do Copiloto(a): ";
+        cin >>codCopiloto;
+    if(!verificarCodigoTripulacao(codCopiloto)){
+        cout<<"Copiloto Nao Encontrado, tente novamente: "<<endl;
+    }}while(!verificarCodigoTripulacao(codCopiloto));
+        cout <<"Copiloto adicionada com sucesso a Tripulacao!"<<endl;
+
+    do{
+        cout << "Digite o Codigo do Comissario(a): ";
+        cin >>codComisario;
+    if(!verificarCodigoTripulacao(codComisario)){
+        cout<<"Comissario Nao Encontrado, tente novamente: "<<endl;
+        }
+    }while(!verificarCodigoTripulacao(codComisario));
+        cout <<"Comisasario adicionado com sucesso a Tripulacao!"<<endl;
+
+    cout <<"Voo registrado com sucesso: "<<endl;
+
+    Voo novosVos;
+    novosVos.setOrigem(origem);
+    novosVos.setDestino(destino);
+    novosVos.setData(data);
+    novosVos.setHora(hora);
+    novosVos.setTarifa(tarifa);
+    novosVos.setCodVoo(codAviao);
+    novosVos.setCodPiloto(codPiloto);
+    novosVos.setCodCopiloto(codCopiloto);
+    novosVos.setCodComisario(codComisario);
+
+    v.push_back(novosVos);
+
 }
 
 void cadastroAssento(){
@@ -371,7 +497,7 @@ void programaFid(){
 void menu() {
     cout << "         |" << endl;
     cout << "--@--@--(_)--@--@--" << endl;
-    cout << "\n==== MENU ====" << endl;
+    cout << "\n==== MENU ==========" << endl;
     cout << "1. Cadastrar Passageiro" << endl;
     cout << "2. Cadastrar Tripulacao" << endl;
     cout << "3. Cadastrar Voo" << endl;
@@ -426,6 +552,7 @@ int main() {
                 cout << "Opção inválida! Por favor, escolha um número entre 1 e 9." << endl;
         }
     }
+
 
     return 0;
 }
