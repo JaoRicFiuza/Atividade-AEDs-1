@@ -6,6 +6,7 @@
 #include <fstream>
 #include <vector>
 
+
 using namespace std;
 // CLASSES
 class Pessoa {
@@ -401,9 +402,9 @@ bool verificarCodigoTripulacao(int cod){
     }
 return false;
 }
-
+vector <Voo> v;
 void cadastroVoo(){
-    vector <Voo> v;
+
     int codAviao,codComisario,codPiloto,codCopiloto,codVoo;
     string data,hora,destino,origem;
     bool status;
@@ -472,13 +473,58 @@ void cadastroVoo(){
 
 }
 
-void cadastroAssento(){
-    cout <<"ENTROU";
+bool verificarCodigoVoo(int cod){
+    for(int i=0; i<v.size();i++){
+        if (v[i].getCodVoo() == cod){
+            return true;
+        }
+    }
+return false;
+}
+void criarAssento () {
+    // Criando os assentos
+        for (int i = 0; i < assentos; i++) {
+            Assento novoAssento;
+            novoAssento.setNumAssento(i + 1);  // Atribuindo um número sequencial para cada assento
+            novoAssento.setStatus(false);  // Supondo que todos os assentos começam como não ocupados
+
+            listaAssentos.push_back(novoAssento);  // Adicionando o assento à lista
+        }
 }
 
-void reserva(){
-    cout <<"ENTROU";
 
+// Função para cadastrar assentos
+void cadastroAssento() {
+    int cod;
+    int assentos;
+
+    cout << "Digite o codigo do voo: ";
+    cin >> cod;
+    if (verificarCodigoVoo(cod)) {
+        vector<Assento> listaAssentos; // Vetor de assentos para o voo
+
+        cout << "Escreva a quantidade de assentos que deseja cadastrar: " << endl;
+        cin >> assentos;
+    }
+    criarAssento()
+}
+
+
+void reserva(){
+
+    /*cout << "Digite o codigo do voo que deseja reservar um assento: " << endl;
+
+    int numerodeassentos;
+
+    // printar na tela quantos assentos estão disponiveis:
+    cout <<"Quantos assentos deseja selecionar: ";
+    cin >> numerodeassentos;
+
+    for (int i = 0; i < numerodeassentos) {
+        cout << "Digite o numero do assento:";
+        // (if) verificar se assento esta ocupado ou não
+        //se estiver livre printar
+    }*/
 }
 
 void baixaReserva(){
