@@ -386,7 +386,7 @@ void cadastroTripulacao(){
     t.push_back(novoTripulante);
 
     salvarTripulacaoNoArquivo(novoTripulante);
-    cout << "\Tripulante cadastrado com sucesso!\n";
+    cout << "Tripulante cadastrado com sucesso!\n";
     cout << "Codigo do Tripulante: " << novoTripulante.getCodigo() << endl;
     cout << "Nome: " << novoTripulante.getNome() << endl;
     cout << "Endereco: " << novoTripulante.getEndereco() << endl;
@@ -481,7 +481,7 @@ bool verificarCodigoVoo(int cod){
     }
 return false;
 }
-void criarAssento () {
+void criarAssento (int assentos,vector<Assento> &listaAssentos) {
     // Criando os assentos
         for (int i = 0; i < assentos; i++) {
             Assento novoAssento;
@@ -497,16 +497,14 @@ void criarAssento () {
 void cadastroAssento() {
     int cod;
     int assentos;
-
+    vector<Assento> listaAssentos; // Vetor de assentos para o voo
     cout << "Digite o codigo do voo: ";
     cin >> cod;
     if (verificarCodigoVoo(cod)) {
-        vector<Assento> listaAssentos; // Vetor de assentos para o voo
-
         cout << "Escreva a quantidade de assentos que deseja cadastrar: " << endl;
         cin >> assentos;
     }
-    criarAssento()
+    criarAssento(assentos,listaAssentos);
 }
 
 
