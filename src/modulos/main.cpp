@@ -263,7 +263,46 @@ class Reserva : public Passageiro, public Voo, public Assento
 protected:
 public:
 };
+// Funções Basicas
+void erroArquivo()
+{
+    cout << "Erro ao abrir o arquivo para salvar!" << endl;
+}
+void registradoArquivo()
+{
+    cout << "Salvo com sucesso!" << endl;
+}
+bool buscaArquivo(string nomeArquivo, string codBusca)
+{
+    ifstream arquivo(nomeArquivo + ".txt"); // Abre o arquivo
+    string linha;
+    string busca = codBusca; // O que você quer buscar
+    bool encontrado = false;
 
+    if (arquivo.is_open())
+    {
+        while (std::getline(arquivo, linha))
+        { // Lê o arquivo linha por linha
+            if (linha.find(busca) != string::npos)
+            { // Busca pela palavra
+                cout << "Encontrado: " << linha << endl;
+                encontrado = true;
+                break; // Opcional: para após encontrar
+            }
+        }
+        arquivo.close(); // Fecha o arquivo
+    }
+    else
+    {
+        erroArquivo();
+    }
+
+    if (!encontrado)
+    {
+        cout << "Dado não encontrado." << endl;
+    }
+    return encontrado;
+}
 // FUNÇOES PRINCIPAIS
 // Funçoes para Salvar no arquivo.txt
 
@@ -279,11 +318,11 @@ void salvarPassageiroNoArquivo(Passageiro &p)
         arquivo << "Fidelidade: " << (p.getFidelidade() ? "Sim" : "Nao") << endl;
         arquivo << "-------------------------" << endl;
         arquivo.close();
-        cout << "Passageiro salvo com sucesso!" << endl;
+        registradoArquivo();
     }
     else
     {
-        cout << "Erro ao abrir o arquivo para salvar!" << endl;
+        erroArquivo();
     }
 }
 void salvarTripulacaoNoArquivo(Tripulacao &t)
@@ -298,19 +337,43 @@ void salvarTripulacaoNoArquivo(Tripulacao &t)
         arquivo << "Cargo: " << (t.getCargo() == 1 ? "Piloto(a)" : (t.getCargo() == 2 ? "Copiloto(a)" : "Comissario(a)")) << endl;
         arquivo << "-------------------------" << endl;
         arquivo.close();
-        cout << "Tripulante salvo com sucesso!" << endl;
+        registradoArquivo();
     }
     else
     {
         // Adicionando mensagens de erro
-        cout << "Erro ao abrir o arquivo para salvar!" << endl;
+        erroArquivo();
         if (arquivo.fail())
         {
             cout << "Erro específico ao tentar abrir o arquivo!" << endl;
         }
     }
 }
-void salvarVooNoArquivo(Voo &v) {}
+void salvarVooNoArquivo(Voo &v)
+{
+    ofstream arquivo("voo.txt", ios::app); // Modo append
+    if (arquivo.is_open())
+    {
+        arquivo << "Codigo do Voo: " << v.getCodVoo() << endl;
+        arquivo << "Data do Voo: " << v.getData() << endl;
+        arquivo << "Hora do Voo: " << v.getHora() << endl;
+        arquivo << "Origem do Voo: " << v.getOrigem() << endl;
+        arquivo << "Destino do Voo: " << v.getDestino() << endl;
+        arquivo << "Codigo do Avião: " << v.getCodAviao() << endl;
+        arquivo << "Codigo do Piloto: " << v.getCodPiloto() << endl;
+        arquivo << "Codigo do Copiloto: " << v.getCodCopiloto() << endl;
+        arquivo << "Codigo do Comissario(a): " << v.getCodComisario() << endl;
+        arquivo << "Status do Voo: " << (v.getStatus() == true ? "Ativo" : (v.getStatus() == false ? "Inativo" : "Erro")) << endl;
+        arquivo << "Tarifa do Voo: " << v.getTarifa() << endl;
+        arquivo << "-------------------------" << endl;
+        arquivo.close();
+        registradoArquivo();
+    }
+    else
+    {
+        erroArquivo();
+    }
+}
 
 // Funçoes para gerar codigos
 int gerarCodigoPassageiro()
@@ -416,7 +479,7 @@ bool verificarCodigoTripulacao(const string &arquivoNome, int codTripulacao)
     // Verifica se o arquivo foi aberto corretamente
     if (!arquivo.is_open())
     {
-        cout << "Erro ao abrir o arquivo!" << endl;
+        erroArquivo();
         return false;
     }
 
@@ -441,7 +504,7 @@ bool verificarCodigosVoo(const string &arquivoNome, int codVoo)
     // Verifica se o arquivo foi aberto corretamente
     if (!arquivo.is_open())
     {
-        cout << "Erro ao abrir o arquivo!" << endl;
+        erroArquivo();
         return false;
     }
 
@@ -654,6 +717,28 @@ void criarAssento(int assentos, vector<Assento> &listaAssentos)
     }
 }
 
+bool verificarCodigo(const string &arquivoNome, int codigo)
+{
+    ifstream arquivo(arquivoNome);
+    int codigoLido;
+
+    if (!arquivo.is_open())
+    {
+        erroArquivo();
+        return false;
+    }
+
+    while (arquivo >> codigoLido)
+    {
+        if (codigoLido == codigo)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // Função para cadastrar assentos
 void cadastroAssento()
 {
@@ -680,6 +765,35 @@ void cadastroAssento()
 
 void reserva()
 {
+    string codPassageiro, codVoo, numAssento;
+    bool passageiroEncontrado = false, vooEncontrado = false, vooAtivo = false, assentoDisponivel = false;
+
+    cout << "\n--- CADASTRO DE RESERVA ---\n";
+
+    // Solicitar o código do passageiro
+    cout << "Digite o código do passageiro: ";
+    cin >> codPassageiro;
+
+    if (!buscaArquivo("passageiros", codPassageiro))
+    {
+        cout << "Passageiro não encontrado! Tente novamente.\n";
+        return;
+    }
+
+    // Solicitar o código do voo
+
+    // Salvar a reserva no arquivo
+    ofstream arquivo("reservas.txt", ios::app);
+    if (arquivo.is_open())
+    {
+        arquivo << "Passageiro: " << codPassageiro << ", Voo: " << codVoo << ", Assento: " << numAssento << endl;
+        arquivo.close();
+        cout << "\nReserva cadastrada e salva no sistema com sucesso!\n";
+    }
+    else
+    {
+        cout << "\nErro ao salvar a reserva no arquivo!\n";
+    }
 }
 
 void baixaReserva()
@@ -701,7 +815,7 @@ void pesquisa()
         ifstream arquivo("passageiros.txt");
         if (!arquivo.is_open())
         {
-            cout << "Erro ao abrir o arquivo de passageiros!" << endl;
+            erroArquivo();
             return;
         }
 
@@ -733,7 +847,7 @@ void pesquisa()
         ifstream arquivo("tripulacao.txt");
         if (!arquivo.is_open())
         {
-            cout << "Erro ao abrir o arquivo de tripulantes!" << endl;
+            erroArquivo();
             return;
         }
 
@@ -787,25 +901,6 @@ void menu()
     cout << "9. Sair" << endl;
     cout << "=====================" << endl;
 }
-
-bool verificarCodigo(const string &arquivoNome, int codigo) {
-    ifstream arquivo(arquivoNome);
-    int codigoLido;
-
-    if (!arquivo.is_open()) {
-        cout << "Erro ao abrir o arquivo!" << endl;
-        return false;
-    }
-
-    while (arquivo >> codigoLido) {
-        if (codigoLido == codigo) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 int main()
 {
     int op = 0;
