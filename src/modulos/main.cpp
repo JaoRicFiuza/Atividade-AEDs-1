@@ -261,7 +261,18 @@ public: // GETTERS e SETTERS
 class Reserva : public Passageiro, public Voo, public Assento
 {
 protected:
+    int codReserva;
+
 public:
+    int getCodReserva()
+    {
+        return codReserva;
+    }
+
+    void setCodReserva(int cod)
+    {
+        codReserva = cod;
+    }
 };
 // Funções Basicas
 void erroArquivo()
@@ -375,6 +386,25 @@ void salvarVooNoArquivo(Voo &v)
     }
 }
 
+void salvarReservaNoArquivo(Reserva &r)
+{
+    ofstream arquivo("reservas.txt", ios::app); // Modo append
+    if (arquivo.is_open())
+    {
+        arquivo << "Codigo da Reserva: " << r.getCodReserva() << endl;
+        arquivo << "Codigo do Passageiro: " << r.getCodPassageiro() << endl;
+        arquivo << "Codigo do Voo: " << r.getCodVoo() << endl;
+        arquivo << "Numero do Assento: " << r.getNumAssento() << endl;
+        arquivo << "-------------------------" << endl;
+        arquivo.close();
+        registradoArquivo();
+    }
+    else
+    {
+        erroArquivo();
+    }
+}
+
 // Funçoes para gerar codigos
 int gerarCodigoPassageiro()
 {
@@ -470,6 +500,33 @@ int gerarCodigoVoo()
     return novoCodigo;
 }
 
+int gerarCodigoReserva()
+{
+    ifstream arquivoEntrada("codigos_reservas.txt");
+    ofstream arquivoSaida;
+    int ultimoCodigo = 0;
+
+    // Lê o último código do arquivo, se existir
+    if (arquivoEntrada.is_open())
+    {
+        arquivoEntrada >> ultimoCodigo;
+        arquivoEntrada.close();
+    }
+
+    // Incrementa o código
+    int novoCodigo = ultimoCodigo + 1;
+
+    // Salva o novo código no arquivo
+    arquivoSaida.open("codigos_reservas.txt", ios::trunc); // Sobrescreve o arquivo
+    if (arquivoSaida.is_open())
+    {
+        arquivoSaida << novoCodigo;
+        arquivoSaida.close();
+    }
+
+    return novoCodigo;
+}
+
 // Funçoes para a verificaçao de Codigo
 bool verificarCodigoTripulacao(const string &arquivoNome, int codTripulacao)
 {
@@ -522,7 +579,7 @@ bool verificarCodigosVoo(const string &arquivoNome, int codVoo)
     return false;    // Retorna falso se não encontrar o código
 }
 
-// Funçoes de cadastros
+// Funções de cadastros
 vector<Passageiro> p;
 void cadastroPassageiro()
 {
@@ -636,15 +693,12 @@ void cadastroVoo()
     getline(cin, origem);
 
     cout << "Digite o destino do Voo: ";
-    cin.ignore(); // Ignorar o buffer
     getline(cin, destino);
 
     cout << "Digite a data do Voo: ";
-    cin.ignore(); // Ignorar o buffer
     getline(cin, data);
 
     cout << "Digite a hora do Voo: ";
-    cin.ignore(); // Ignorar o buffer
     getline(cin, hora);
 
     cout << "Digite a tarifa do Voo: ";
@@ -681,7 +735,7 @@ void cadastroVoo()
             cout << "Comissario Nao Encontrado, tente novamente: " << endl;
         }
     } while (verificarCodigoTripulacao("codigos_tripulante.txt", codComisario) == false);
-    cout << "Comisasario adicionado com sucesso a Tripulacao!" << endl;
+    cout << "Comissario adicionado com sucesso a Tripulacao!" << endl;
 
     cout << "Voo registrado com sucesso: " << endl;
 
@@ -765,8 +819,8 @@ void cadastroAssento()
 
 void reserva()
 {
-    string codPassageiro, codVoo, numAssento;
-    bool passageiroEncontrado = false, vooEncontrado = false, vooAtivo = false, assentoDisponivel = false;
+    int codPassageiro, codVoo, numAssento;
+    bool passageiroEncontrado = false, vooEncontrado = false, assentoDisponivel = false;
 
     cout << "\n--- CADASTRO DE RESERVA ---\n";
 
@@ -774,31 +828,97 @@ void reserva()
     cout << "Digite o código do passageiro: ";
     cin >> codPassageiro;
 
-    if (!buscaArquivo("passageiros", codPassageiro))
+    if (!verificarCodigo("codigos_passageiros.txt", codPassageiro))
     {
         cout << "Passageiro não encontrado! Tente novamente.\n";
         return;
     }
 
     // Solicitar o código do voo
+    cout << "Digite o código do voo: ";
+    cin >> codVoo;
+
+    if (!verificarCodigo("codigos_Voo.txt", codVoo))
+    {
+        cout << "Voo não encontrado! Tente novamente.\n";
+        return;
+    }
+
+    // Solicitar o número do assento
+    cout << "Digite o número do assento: ";
+    cin >> numAssento;
+
+    // Aqui você deveria verificar se o assento está disponível
+    // Para simplificação, vamos assumir que o assento está disponível
+
+    // Geração do código único para a reserva
+    int codReserva = gerarCodigoReserva();
+
+    // Configurando os atributos da reserva
+    Reserva novaReserva;
+    novaReserva.setCodReserva(codReserva);
+    novaReserva.setCodPassageiro(codPassageiro);
+    novaReserva.setCodVoo(codVoo);
+    novaReserva.setNumAssento(numAssento);
 
     // Salvar a reserva no arquivo
-    ofstream arquivo("reservas.txt", ios::app);
-    if (arquivo.is_open())
-    {
-        arquivo << "Passageiro: " << codPassageiro << ", Voo: " << codVoo << ", Assento: " << numAssento << endl;
-        arquivo.close();
-        cout << "\nReserva cadastrada e salva no sistema com sucesso!\n";
-    }
-    else
-    {
-        cout << "\nErro ao salvar a reserva no arquivo!\n";
-    }
+    salvarReservaNoArquivo(novaReserva);
+
+    cout << "\nReserva cadastrada com sucesso!\n";
+    cout << "Codigo da Reserva: " << novaReserva.getCodReserva() << endl;
+    cout << "Codigo do Passageiro: " << novaReserva.getCodPassageiro() << endl;
+    cout << "Codigo do Voo: " << novaReserva.getCodVoo() << endl;
+    cout << "Numero do Assento: " << novaReserva.getNumAssento() << endl;
 }
 
 void baixaReserva()
 {
-    cout << "ENTROU";
+    int codReserva;
+    cout << "Digite o código da reserva para dar baixa: ";
+    cin >> codReserva;
+
+    ifstream arquivoEntrada("reservas.txt");
+    ofstream arquivoSaida("reservas_temp.txt");
+    string linha;
+    bool reservaEncontrada = false;
+
+    if (arquivoEntrada.is_open() && arquivoSaida.is_open())
+    {
+        while (getline(arquivoEntrada, linha))
+        {
+            if (linha.find("Codigo da Reserva: " + to_string(codReserva)) != string::npos)
+            {
+                reservaEncontrada = true;
+                // Pular as próximas 4 linhas (dados da reserva)
+                for (int i = 0; i < 4; ++i)
+                {
+                    getline(arquivoEntrada, linha);
+                }
+            }
+            else
+            {
+                arquivoSaida << linha << endl;
+            }
+        }
+        arquivoEntrada.close();
+        arquivoSaida.close();
+
+        remove("reservas.txt");
+        rename("reservas_temp.txt", "reservas.txt");
+
+        if (reservaEncontrada)
+        {
+            cout << "Reserva de código " << codReserva << " baixada com sucesso!" << endl;
+        }
+        else
+        {
+            cout << "Reserva não encontrada." << endl;
+        }
+    }
+    else
+    {
+        erroArquivo();
+    }
 }
 
 void pesquisa()
@@ -812,67 +932,17 @@ void pesquisa()
 
     if (op == 1)
     {
-        ifstream arquivo("passageiros.txt");
-        if (!arquivo.is_open())
-        {
-            erroArquivo();
-            return;
-        }
-
-        string termo;
-        cout << "Digite o nome ou código do passageiro: ";
-        cin.ignore();
-        getline(cin, termo);
-
-        string linha;
-        bool encontrado = false;
-        cout << "Resultados encontrados:\n";
-        while (getline(arquivo, linha))
-        {
-            if (linha.find(termo) != string::npos)
-            {
-                encontrado = true;
-                cout << linha << endl;
-            }
-        }
-
-        if (!encontrado)
-        {
-            cout << "Passageiro não encontrado!" << endl;
-        }
-        arquivo.close();
+        string codBusca;
+        cout << "Digite o código do passageiro: ";
+        cin >> codBusca;
+        buscaArquivo("passageiros", codBusca);
     }
     else if (op == 2)
     {
-        ifstream arquivo("tripulacao.txt");
-        if (!arquivo.is_open())
-        {
-            erroArquivo();
-            return;
-        }
-
-        string termo;
-        cout << "Digite o nome ou código do tripulante: ";
-        cin.ignore();
-        getline(cin, termo);
-
-        string linha;
-        bool encontrado = false;
-        cout << "Resultados encontrados:\n";
-        while (getline(arquivo, linha))
-        {
-            if (linha.find(termo) != string::npos)
-            {
-                encontrado = true;
-                cout << linha << endl;
-            }
-        }
-
-        if (!encontrado)
-        {
-            cout << "Tripulante não encontrado!" << endl;
-        }
-        arquivo.close();
+        string codBusca;
+        cout << "Digite o código do tripulante: ";
+        cin >> codBusca;
+        buscaArquivo("tripulacao", codBusca);
     }
     else
     {
@@ -882,7 +952,38 @@ void pesquisa()
 
 void programaFid()
 {
-    cout << "ENTROU";
+    ifstream arquivo("passageiros.txt");
+    string linha;
+    bool fidelidadeEncontrada = false;
+
+    if (arquivo.is_open())
+    {
+        while (getline(arquivo, linha))
+        {
+            if (linha.find("Fidelidade: Sim") != string::npos)
+            {
+                fidelidadeEncontrada = true;
+                cout << "-------------------------" << endl;
+                cout << linha << endl;
+                // Exibir as próximas 4 linhas (dados do passageiro)
+                for (int i = 0; i < 4; ++i)
+                {
+                    getline(arquivo, linha);
+                    cout << linha << endl;
+                }
+            }
+        }
+        arquivo.close();
+
+        if (!fidelidadeEncontrada)
+        {
+            cout << "Nenhum passageiro encontrado no programa de fidelidade." << endl;
+        }
+    }
+    else
+    {
+        erroArquivo();
+    }
 }
 
 void menu()
