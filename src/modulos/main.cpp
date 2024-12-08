@@ -385,7 +385,6 @@ void salvarVooNoArquivo(Voo &v)
         erroArquivo();
     }
 }
-
 void salvarReservaNoArquivo(Reserva &r)
 {
     ofstream arquivo("reservas.txt", ios::app); // Modo append
@@ -423,10 +422,10 @@ int gerarCodigoPassageiro()
     int novoCodigo = ultimoCodigo + 1;
 
     // Salva o novo código no arquivo
-    arquivoSaida.open("codigos_passageiros.txt", ios::trunc); // Sobrescreve o arquivo
+    arquivoSaida.open("codigos_passageiros.txt",ios::out | ios::app); // Sobrescreve o arquivo
     if (arquivoSaida.is_open())
     {
-        arquivoSaida << novoCodigo;
+        arquivoSaida << novoCodigo<<endl;
         arquivoSaida.close();
     }
 
@@ -490,10 +489,10 @@ int gerarCodigoVoo()
     int novoCodigo = ultimoCodigo + 1;
 
     // Salva o novo código no arquivo
-    arquivoSaida.open("codigos_Voo.txt", ios::app);
+    arquivoSaida.open("codigos_Voo.txt", ios::out | ios::app);
     if (arquivoSaida.is_open())
     {
-        arquivoSaida << novoCodigo;
+        arquivoSaida << novoCodigo<<endl;
         arquivoSaida.close();
     }
 
@@ -517,10 +516,10 @@ int gerarCodigoReserva()
     int novoCodigo = ultimoCodigo + 1;
 
     // Salva o novo código no arquivo
-    arquivoSaida.open("codigos_reservas.txt", ios::trunc); // Sobrescreve o arquivo
+    arquivoSaida.open("codigos_reservas.txt", ios::out | ios::app); // Sobrescreve o arquivo
     if (arquivoSaida.is_open())
     {
-        arquivoSaida << novoCodigo;
+        arquivoSaida << novoCodigo<<endl;
         arquivoSaida.close();
     }
 

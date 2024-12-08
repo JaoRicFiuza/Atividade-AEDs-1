@@ -1,0 +1,48 @@
+Codigo do Voo: 1
+Data do Voo: 25/0/22222
+Hora do Voo: 15e30
+Origem do Voo: belo horizonte
+Destino do Voo: paris
+Codigo do Avião: -1
+Codigo do Piloto: 1
+Codigo do Copiloto: 2
+Codigo do Comissario(a): 1
+Status do Voo: Ativo
+Tarifa do Voo: 80
+-------------------------
+Codigo do Voo: 2
+Data do Voo: 884444
+Hora do Voo: 5e30
+Origem do Voo: paris
+Destino do Voo: belo horizonte
+Codigo do Avião: -1
+Codigo do Piloto: 1
+Codigo do Copiloto: 2
+Codigo do Comissario(a): 1
+Status do Voo: Ativo
+Tarifa do Voo: 95
+-------------------------
+Codigo do Voo: 13
+Data do Voo: asas
+Hora do Voo: asa
+Origem do Voo: asa
+Destino do Voo: asa
+Codigo do Avião: -1
+Codigo do Piloto: 1
+Codigo do Copiloto: 2
+Codigo do Comissario(a): 1
+Status do Voo: Ativo
+Tarifa do Voo: 95
+-------------------------
+Codigo do Voo: 1
+Data do Voo: 15/5/20023
+Hora do Voo: 15e30
+Origem do Voo: paris
+Destino do Voo: belo horizonte
+Codigo do Avião: -1
+Codigo do Piloto: 1
+Codigo do Copiloto: 2
+Codigo do Comissario(a): 1
+Status do Voo: Ativo
+Tarifa do Voo: 99
+-------------------------

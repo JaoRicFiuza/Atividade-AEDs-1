@@ -1,0 +1,30 @@
+Codigo do Tripulante: 1
+Nome: pedro
+Endereco: rua do pedro
+Telefone: 31988888
+Cargo: Piloto(a)
+-------------------------
+Codigo do Tripulante: 2
+Nome: felipe
+Endereco: rua do felipe
+Telefone: 319874563
+Cargo: Piloto(a)
+-------------------------
+Codigo do Tripulante: 3
+Nome: felipe costa
+Endereco: rua do felipe
+Telefone: 31987456
+Cargo: Comissario(a)
+-------------------------
+Codigo do Tripulante: 1
+Nome: feliep
+Endereco: rua do lipe
+Telefone: 987456123
+Cargo: Piloto(a)
+-------------------------
+Codigo do Tripulante: 2
+Nome: bielzin
+Endereco: ruado biel
+Telefone: 321456789
+Cargo: Copiloto(a)
+-------------------------

@@ -1,0 +1,14 @@
+Codigo do Passageiro: 1
+Nome: JOao
+Endereco: rua aspasia
+Telefone: 3198374937
+Fidelidade: Sim
+-------------------------
+Codigo do Passageiro: 2
+Nome: asas
+Endereco: asas
+Telefone: 31198374
+Fidelidade: Nao
+-------------------------
+Codigo do Passageiro: 1Nome: felipeEndereco: rua do felipeTelefone: 319888763Fidelidade: Sim:
+Codigo do Passageiro: 2Nome: bielzinEndereco: rua do bielzinTelefone: 99999999Fidelidade: Nao:
