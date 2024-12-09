@@ -303,6 +303,7 @@ void salvarPassageiroNoArquivo(Passageiro &p)
         arquivo << "Endereco: " << p.getEndereco() << endl;
         arquivo << "Telefone: " << p.getTel() << endl;
         arquivo << "Fidelidade: " << (p.getFidelidade() ? "Sim" : "Nao") << endl;
+        arquivo << "Pontos de Fidelidade: 0" << endl; // Inicializa com 0 pontos de fidelidade
         arquivo << "-------------------------" << endl;
         arquivo.close();
         registradoArquivo();
@@ -400,7 +401,7 @@ void salvarAssentosNoArquivo(int codVoo, const vector<Assento>& listaAssentos)
     // Salvando cada assento com o seu status
     for (const auto& assento : listaAssentos)
     {
-        arquivo << assento.getNumAssento() << ": " 
+        arquivo << assento.getNumAssento() << ": "
                 << (assento.getStatus() ? "Ocupado" : "Disponível") << endl;
     }
 
@@ -450,7 +451,12 @@ void atualizarStatusAssento(int codVoo, int numAssento, bool status)
                 // Processar os assentos
                 while (getline(arquivoEntrada, linha) && linha != "------------------------")
                 {
-                    int num = stoi(linha.substr(0, linha.find(":")));
+                    int num = 0;
+                    try {
+                        num = stoi(linha.substr(0, linha.find(":")));
+                    } catch (const invalid_argument& e) {
+                        continue;
+                    }
                     if (num == numAssento)
                     {
                         assentoAtualizado = true;
@@ -793,10 +799,40 @@ bool verificarStatusAssento(int codVoo, int numAssento)
                 return false; // Assento ocupado
             }
         }
+
+        // Reset vooEncontrado if we reach the end of the current flight's section
+        if (vooEncontrado && linha == "------------------------")
+        {
+            vooEncontrado = false;
+        }
     }
 
     arquivo.close();
     return false; // Assento ou voo não encontrado
+}
+
+bool verificarCodigoVoo(const string &arquivoNome, int codVoo)
+{
+    ifstream arquivo(arquivoNome);
+    int codigo;
+
+    if (!arquivo.is_open())
+    {
+        erroArquivo();
+        return false;
+    }
+
+    while (arquivo >> codigo)
+    {
+        if (codigo == codVoo)
+        {
+            arquivo.close();
+            return true;
+        }
+    }
+
+    arquivo.close();
+    return false;
 }
 
 // Funçoes para Pesquisa
@@ -1065,8 +1101,8 @@ void reserva()
     cout << "Digite o código do voo: ";
     cin >> codVoo;
 
-    // Verificar se o voo existe, busca linha por linha
-    if (!verificarCodigo("codigos_Voo.txt", codVoo))
+    // Verificar se o voo existe
+    if (!verificarCodigoVoo("codigos_Voo.txt", codVoo))
     {
         cout << "Voo não encontrado! Tente novamente.\n";
         return;
@@ -1109,6 +1145,63 @@ void reserva()
     cout << "Numero do Assento: " << novaReserva.getNumAssento() << endl;
 }
 
+void adicionarPontosFidelidade(int codPassageiro, int pontos)
+{
+    ifstream arquivoEntrada("passageiros.txt");
+    ofstream arquivoSaida("passageiros_temp.txt");
+    string linha;
+    bool passageiroEncontrado = false;
+
+    if (arquivoEntrada.is_open() && arquivoSaida.is_open())
+    {
+        while (getline(arquivoEntrada, linha))
+        {
+            arquivoSaida << linha << endl;
+            if (linha.find("Codigo do Passageiro: " + to_string(codPassageiro)) != string::npos)
+            {
+                passageiroEncontrado = true;
+                while (getline(arquivoEntrada, linha) && linha != "-------------------------")
+                {
+                    if (linha.find("Pontos de Fidelidade: ") != string::npos)
+                    {
+                        int pontosAtuais = 0;
+                        try {
+                            pontosAtuais = stoi(linha.substr(linha.find(": ") + 2));
+                        } catch (const invalid_argument& e) {
+                            continue;
+                        }
+                        pontosAtuais += pontos;
+                        arquivoSaida << "Pontos de Fidelidade: " << pontosAtuais << endl;
+                    }
+                    else
+                    {
+                        arquivoSaida << linha << endl;
+                    }
+                }
+                arquivoSaida << "-------------------------" << endl;
+            }
+        }
+        arquivoEntrada.close();
+        arquivoSaida.close();
+
+        remove("passageiros.txt");
+        rename("passageiros_temp.txt", "passageiros.txt");
+
+        if (passageiroEncontrado)
+        {
+            cout << "Pontos de fidelidade adicionados com sucesso!" << endl;
+        }
+        else
+        {
+            cout << "Passageiro não encontrado." << endl;
+        }
+    }
+    else
+    {
+        erroArquivo();
+    }
+}
+
 void baixaReserva()
 {
     int codReserva;
@@ -1119,36 +1212,31 @@ void baixaReserva()
     ofstream arquivoSaida("reservas_temp.txt");
     string linha;
     bool reservaEncontrada = false;
-    int codVoo, numAssento;
+    int codVoo = 0, numAssento = 0, codPassageiro = 0;
 
     if (arquivoEntrada.is_open() && arquivoSaida.is_open())
     {
-        // Processa as linhas do arquivo de reservas
         while (getline(arquivoEntrada, linha))
         {
             if (linha.find("Codigo da Reserva: " + to_string(codReserva)) != string::npos)
             {
                 reservaEncontrada = true;
-                // Encontrar os dados do voo e do assento
                 for (int i = 0; i < 4; ++i)
                 {
                     getline(arquivoEntrada, linha);
-                    // Encontrar o código do voo
-                    if (i == 2)
+                    if (linha.find("Codigo do Voo: ") != string::npos)
                     {
-                        stringstream ss(linha.substr(linha.find(":") + 1)); // Pega tudo após ":"
-                        ss >> codVoo; // Extrai o número do voo
+                        codVoo = stoi(linha.substr(linha.find(": ") + 2));
                     }
-                    // Encontrar o número do assento
-                    if (i == 3)
+                    else if (linha.find("Numero do Assento: ") != string::npos)
                     {
-                        stringstream ss(linha.substr(linha.find(":") + 1)); // Pega tudo após ":"
-                        ss >> numAssento; // Extrai o número do assento
+                        numAssento = stoi(linha.substr(linha.find(": ") + 2));
+                    }
+                    else if (linha.find("Codigo do Passageiro: ") != string::npos)
+                    {
+                        codPassageiro = stoi(linha.substr(linha.find(": ") + 2));
                     }
                 }
-
-                // Atualizar o status do assento para "Disponível"
-                atualizarStatusAssento(codVoo, numAssento, false); // Dar baixa no assento
             }
             else
             {
@@ -1158,14 +1246,17 @@ void baixaReserva()
         arquivoEntrada.close();
         arquivoSaida.close();
 
-        // Substituir o arquivo original pelo temporário
         remove("reservas.txt");
         rename("reservas_temp.txt", "reservas.txt");
 
-        // Exibir o status da operação
         if (reservaEncontrada)
         {
+            atualizarStatusAssento(codVoo, numAssento, false);
+
             cout << "Reserva de código " << codReserva << " baixada com sucesso!" << endl;
+
+            // Adicionar pontos de fidelidade
+            adicionarPontosFidelidade(codPassageiro, 10);
         }
         else
         {
@@ -1174,7 +1265,7 @@ void baixaReserva()
     }
     else
     {
-        cout << "Erro ao abrir arquivos!" << endl;
+        erroArquivo();
     }
 }
 
@@ -1238,10 +1329,8 @@ void programaFid()
                 fidelidadeEncontrada = true;
                 cout << "-------------------------" << endl;
                 cout << linha << endl;
-                // Exibir as próximas 4 linhas (dados do passageiro)
-                for (int i = 0; i < 4; ++i)
+                while (getline(arquivo, linha) && linha != "-------------------------")
                 {
-                    getline(arquivo, linha);
                     cout << linha << endl;
                 }
             }
@@ -1278,10 +1367,10 @@ void menu()
 int main()
 {
     int op = 0;
-    while (op != 9)
+    while (op != 8)
     {
         menu();
-        cout << "Escolha uma opcao (1-9): ";
+        cout << "Escolha uma opcao (1-8): ";
         cin >> op;
 
         switch (op)
