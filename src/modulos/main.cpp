@@ -733,26 +733,31 @@ bool verificarCodigosVoo(const string &arquivoNome, int codVoo)
     return false;    // Retorna falso se não encontrar o código
 }
 
-bool verificarCodigo(const string &arquivoNome, int codigo) // não sei qual codigo é esse ainda
+bool verificarCodigo(const string& arquivo, int codBusca)
 {
-    ifstream arquivo(arquivoNome);
-    int codigoLido;
-
-    if (!arquivo.is_open())
+    ifstream arquivoEntrada(arquivo);
+    if (!arquivoEntrada.is_open())
     {
-        erroArquivo();
+        cout << "Erro ao abrir o arquivo: " << arquivo << endl;
         return false;
     }
 
-    while (arquivo >> codigoLido)
+    string linha;
+    bool encontrado = false;
+
+    // Percorre o arquivo linha por linha
+    while (getline(arquivoEntrada, linha))
     {
-        if (codigoLido == codigo)
+        // Verifica se a linha contém o código do passageiro
+        if (linha.find("Codigo do Passageiro: " + to_string(codBusca)) != string::npos)
         {
-            return true;
+            encontrado = true;
+            break; // Código encontrado, pode parar a busca
         }
     }
 
-    return false;
+    arquivoEntrada.close();
+    return encontrado;
 }
 
 bool verificarStatusAssento(int codVoo, int numAssento)
@@ -1049,8 +1054,8 @@ void reserva()
     cout << "Digite o código do passageiro: ";
     cin >> codPassageiro;
 
-    // Verificar se o passageiro existe
-    if (!verificarCodigo("codigos_passageiros.txt", codPassageiro))
+    // Verificar se o passageiro existe, busca linha por linha
+    if (!verificarCodigo("passageiros.txt", codPassageiro))
     {
         cout << "Passageiro não encontrado! Tente novamente.\n";
         return;
@@ -1060,7 +1065,7 @@ void reserva()
     cout << "Digite o código do voo: ";
     cin >> codVoo;
 
-    // Verificar se o voo existe
+    // Verificar se o voo existe, busca linha por linha
     if (!verificarCodigo("codigos_Voo.txt", codVoo))
     {
         cout << "Voo não encontrado! Tente novamente.\n";
