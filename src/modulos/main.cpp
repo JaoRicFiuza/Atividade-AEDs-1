@@ -464,70 +464,64 @@ void salvarReservaNoArquivo(const Reserva &reserva)
 }
 
 // Atualizar Informaçoes no arquivo.txt
-void baixaReserva()
+void atualizarStatusAssento(int codVoo, int numAssento, bool status)
 {
-    int codReserva;
-    cout << "Digite o código da reserva para dar baixa: ";
-    cin >> codReserva;
-
-    ifstream arquivoEntrada("reservas.txt");
-    ofstream arquivoSaida("reservas_temp.txt");
+    // Abra o arquivo de assentos
+    ifstream arquivoEntrada("assentos_voo.txt");
+    ofstream arquivoSaida("assentos_voo_temp.txt");
     string linha;
-    bool reservaEncontrada = false;
-    int codVoo, numAssento;
 
     if (arquivoEntrada.is_open() && arquivoSaida.is_open())
     {
+        bool assentoAtualizado = false;
         while (getline(arquivoEntrada, linha))
         {
-            if (linha.find("Codigo da Reserva: " + to_string(codReserva)) != string::npos)
+            // Verifique se a linha contém o código do voo
+            if (linha.find("Voo: " + to_string(codVoo)) != string::npos)
             {
-                reservaEncontrada = true;
-                // Encontrar o código do voo e número do assento
-                for (int i = 0; i < 4; ++i)
+                // Processar os assentos
+                while (getline(arquivoEntrada, linha) && linha != "------------------------")
                 {
-                    getline(arquivoEntrada, linha);
-                    if (i == 2)  // Supondo que a linha 2 contém o código do voo
+                    int num = stoi(linha.substr(0, linha.find(":")));
+                    if (num == numAssento)
                     {
-                        stringstream ss(linha.substr(linha.find(":") + 1));
-                        ss >> codVoo;
+                        assentoAtualizado = true;
+                        arquivoSaida << num << ": " << (status ? "Ocupado" : "Disponível") << endl;
                     }
-                    if (i == 3)  // Supondo que a linha 3 contém o número do assento
+                    else
                     {
-                        stringstream ss(linha.substr(linha.find(":") + 1));
-                        ss >> numAssento;
+                        arquivoSaida << linha << endl;
                     }
                 }
-
-                // Atualizar o status do assento para "Disponível" (Dar baixa)
-                atualizarStatusAssento(codVoo, numAssento, false);
             }
             else
             {
                 arquivoSaida << linha << endl;
             }
         }
+
         arquivoEntrada.close();
         arquivoSaida.close();
 
-        // Substituir o arquivo original pelo temporário
-        remove("reservas.txt");
-        rename("reservas_temp.txt", "reservas.txt");
+        // Substituir o arquivo de assentos pelo temporário
+        remove("assentos_voo.txt");
+        rename("assentos_voo_temp.txt", "assentos_voo.txt");
 
-        if (reservaEncontrada)
+        if (assentoAtualizado)
         {
-            cout << "Reserva de código " << codReserva << " baixada com sucesso!" << endl;
+            cout << "Assento atualizado com sucesso!" << endl;
         }
         else
         {
-            cout << "Reserva não encontrada." << endl;
+            cout << "Assento não encontrado!" << endl;
         }
     }
     else
     {
-        cout << "Erro ao abrir arquivos!" << endl;
+        erroArquivo();
     }
 }
+
 
 
 // Funçoes para gerar codigos
