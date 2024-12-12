@@ -334,7 +334,7 @@ void salvarTripulacaoNoArquivo(Tripulacao &t)
         erroArquivo();
         if (arquivo.fail())
         {
-            cout << "Erro específico ao tentar abrir o arquivo!" << endl;
+            cout << "Erro especifico ao tentar abrir o arquivo!" << endl;
         }
     }
 }
@@ -349,7 +349,7 @@ void salvarVooNoArquivo(Voo &v)
         arquivo << "Hora do Voo: " << v.getHora() << endl;
         arquivo << "Origem do Voo: " << v.getOrigem() << endl;
         arquivo << "Destino do Voo: " << v.getDestino() << endl;
-        arquivo << "Codigo do Avião: " << v.getCodAviao() << endl;
+        arquivo << "Codigo do Aviao: " << v.getCodAviao() << endl;
         arquivo << "Codigo do Piloto: " << v.getCodPiloto() << endl;
         arquivo << "Codigo do Copiloto: " << v.getCodCopiloto() << endl;
         arquivo << "Codigo do Comissario(a): " << v.getCodComisario() << endl;
@@ -475,7 +475,7 @@ void salvarPontosFidNoArquivo(int codPassageiro, int pontos)
     else
     {
         // Caso o passageiro não seja encontrado
-        cout << "Passageiro com código " << codPassageiro << " não encontrado!" << endl;
+        cout << "Passageiro com codigo " << codPassageiro << " não encontrado!" << endl;
     }
 }
 
@@ -587,15 +587,13 @@ void atualizarPontosFidelidade(int codPassageiro, int pontos)
     }
     else
     {
-        cout << "Passageiro não encontrado!" << endl;
+        cout << "Passageiro nao encontrado!" << endl;
     }
 }
 
 // Função para calcular ponto de fidelidade
 int calcularPontosFidelidade(int codVoo)
 {
-
-
     int pontos = 50;  // Definindo pontos fixos para todos os voos
 
     return pontos;
@@ -680,11 +678,11 @@ int gerarCodigoTripulante()
     {
         arquivoSaida << novoCodigo << endl; // Adiciona o novo código ao final do arquivo
         arquivoSaida.close();
-        cout << "Novo código de tripulante gerado: " << novoCodigo << endl;
+        cout << "Novo codigo de tripulante gerado: " << novoCodigo << endl;
     }
     else
     {
-        cout << "Erro ao abrir o arquivo para salvar o código!" << endl;
+        cout << "Erro ao abrir o arquivo para salvar o codigo!" << endl;
     }
 
     return novoCodigo;
@@ -714,7 +712,7 @@ int gerarCodigoVoo()
     }
     else
     {
-        cout << "Erro ao abrir o arquivo de códigos de voo!" << endl;
+        cout << "Erro ao abrir o arquivo de codigos de voo!" << endl;
         return -1; // Retorna -1 caso não consiga abrir o arquivo
     }
 
@@ -731,11 +729,11 @@ int gerarCodigoVoo()
     {
         arquivoSaida << novoCodigo << endl; // Adiciona o novo código ao final do arquivo
         arquivoSaida.close();
-        cout << "Novo código de voo gerado: " << novoCodigo << endl;
+        cout << "Novo codigo de voo gerado: " << novoCodigo << endl;
     }
     else
     {
-        cout << "Erro ao abrir o arquivo para salvar o código de voo!" << endl;
+        cout << "Erro ao abrir o arquivo para salvar o codigo de voo!" << endl;
     }
 
     return novoCodigo;
@@ -761,7 +759,7 @@ int gerarCodigoReserva()
             }
             catch (const invalid_argument& e)
             {
-                cout << "Erro ao ler o código do arquivo: " << e.what() << endl;
+                cout << "Erro ao ler o codigo do arquivo: " << e.what() << endl;
             }
         }
         arquivoEntrada.close();
@@ -780,11 +778,11 @@ int gerarCodigoReserva()
     {
         arquivoSaida << novoCodigo << endl; // Adiciona o novo código ao final
         arquivoSaida.close();
-        cout << "Novo código de reserva gerado: " << novoCodigo << endl;
+        cout << "Novo codigo de reserva gerado: " << novoCodigo << endl;
     }
     else
     {
-        cout << "Erro ao abrir o arquivo para salvar o código de reserva!" << endl;
+        cout << "Erro ao abrir o arquivo para salvar o codigo de reserva!" << endl;
         return -1; // Caso ocorra erro ao abrir o arquivo
     }
 
@@ -839,7 +837,7 @@ void gerarPontosFid(int codPassageiro, int pontos)
         }
         else
         {
-            cout << "Passageiro não encontrado." << endl;
+            cout << "Passageiro nao encontrado." << endl;
         }
     }
     else
@@ -950,7 +948,7 @@ bool verificarStatusAssento(int codVoo, int numAssento)
         if (vooEncontrado && linha.find(to_string(numAssento) + ":") != string::npos)
         {
             // Verificar o status do assento
-            if (linha.find("Disponível") != string::npos)
+            if (linha.find("Disponivel") != string::npos)
             {
                 arquivo.close();
                 return true; // Assento disponível
@@ -1016,7 +1014,7 @@ void pesquisaArquivo(const string& tipo, const string& codBusca)
     {
         if (linha.find(codBusca) != string::npos)  // Encontrou o código na linha
         {
-            cout << "Informações encontradas: " << endl;
+            cout << "Informacoes encontradas: " << endl;
             cout << linha << endl;
             encontrado = true;
             linhasExibidas = 1;  // Já exibiu a linha com o código
@@ -1036,7 +1034,7 @@ void pesquisaArquivo(const string& tipo, const string& codBusca)
 
     if (!encontrado)
     {
-        cout << "Código " << codBusca << " não encontrado no arquivo de " << tipo << "." << endl;
+        cout << "Codigo " << codBusca << " nao encontrado no arquivo de " << tipo << "." << endl;
     }
 
     arquivo.close();
@@ -1311,8 +1309,6 @@ void reserva()
     cout << "Número do Assento: " << novaReserva.getNumAssento() << endl;
     cout << "Pontos de Fidelidade: " << pontosFidelidade << endl;
 }
-
-
 
 void baixaReserva()
 {
