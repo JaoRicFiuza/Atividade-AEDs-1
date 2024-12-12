@@ -60,7 +60,7 @@ Este software é um sistema de gerenciamento de reservas de voos, permitindo o c
 
 ---
 
-## **5. Baixa em Reservas**
+## **5. ❌Baixa em Reservas**
 **Descrição:** Permite ao usuário cancelar uma reserva existente.
 
 **Informações solicitadas:**
