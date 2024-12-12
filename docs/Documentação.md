@@ -44,7 +44,7 @@ Este software é um sistema de gerenciamento de reservas de voos, permitindo o c
 
 ---
 
-## **4. Realizar Reserva**
+## **4. ✅Realizar Reserva**
 **Descrição:** Permite ao usuário realizar uma reserva de assento em um voo.
 
 **Informações solicitadas:**
