@@ -15,7 +15,7 @@ Este software é um sistema de gerenciamento de reservas de voos, permitindo o c
 
 ---
 
-## **2. Cadastro de Tripulação**
+## **2. 🛫Cadastro de Tripulação**
 **Descrição:** Permite ao usuário cadastrar um novo membro da tripulação (piloto, copiloto ou comissário).
 
 **Informações solicitadas:**
