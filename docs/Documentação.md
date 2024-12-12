@@ -28,7 +28,7 @@ Este software é um sistema de gerenciamento de reservas de voos, permitindo o c
 
 ---
 
-## **3. Cadastro de Voo**
+## **3. 🛬Cadastro de Voo**
 **Descrição:** Permite ao usuário cadastrar um novo voo, incluindo detalhes da tripulação.
 
 **Informações solicitadas:**
@@ -74,7 +74,7 @@ Este software é um sistema de gerenciamento de reservas de voos, permitindo o c
 
 ---
 
-## **6. Pesquisa**
+## **6. 🔎Pesquisa**
 **Descrição:** Permite ao usuário pesquisar informações sobre passageiros ou tripulantes.
 
 **Opções de pesquisa:**
@@ -85,14 +85,14 @@ Este software é um sistema de gerenciamento de reservas de voos, permitindo o c
 
 ---
 
-## **7. Consultar Programa de Fidelidade**
+## **7. 💲Consultar Programa de Fidelidade**
 **Descrição:** Exibe todos os passageiros que participam do programa de fidelidade.
 
 **Armazenamento:** Busca no arquivo `passageiros.txt`.
 
 ---
 
-## **8. Menu Principal**
+## **8. 🌐Menu Principal**
 **Descrição:** O usuário pode acessar as funcionalidades do sistema através de um menu interativo.
 
 **Opções disponíveis:**
