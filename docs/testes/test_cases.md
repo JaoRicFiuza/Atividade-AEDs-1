@@ -94,6 +94,54 @@ Cada caso de teste será descrito usando o seguinte formato:
 - **Saídas Esperadas**:
   - Criação do código unico do voo.
   - Salvar as informações no arquivo.
+ 
+### Caso de Teste 6
+- **ID**: CT-006
+- **Descrição**: Realizar reserva
+- **Entradas**:
+  - Código do passageiro: `1`
+  - Código do voo: `1`
+  - Número do assento: `1`
+- **Procedimento de Teste**:
+  1. Selecionar a opção 4 no menu.
+  2. Inserir as informações.
+- **Saídas Esperadas**:
+  - Salvar as informações no arquivo.
+ 
+### Caso de Teste 7
+- **ID**: CT-007
+- **Descrição**: Baixa em reserva
+- **Entradas**:
+  - Código do reserva: `1`
+- **Procedimento de Teste**:
+  1. Selecionar a opção 5 no menu.
+  2. Inserir as informações.
+- **Saídas Esperadas**:
+  - Salvar as informações no arquivo.
+ 
+### Caso de Teste 8
+- **ID**: CT-008
+- **Descrição**: Pesquisa Passageiro
+- **Entradas**:
+  - Código do passageiro: `1`
+- **Procedimento de Teste**:
+  1. Selecionar a opção 6 no menu.
+  2. Selecionar a opção 1.
+  3. Inserir as informações.
+- **Saídas Esperadas**:
+  - Retornar informações.
+ 
+### Caso de Teste 9
+- **ID**: CT-009
+- **Descrição**: Pesquisa Tripulante
+- **Entradas**:
+  - Código do passageiro: `1`
+- **Procedimento de Teste**:
+  1. Selecionar a opção 6 no menu.
+  2. Selecionar a opção 2.
+  3. Inserir as informações.
+- **Saídas Esperadas**:
+  - Retornar informações.
 
 ---
 
