@@ -17,31 +17,83 @@ Cada caso de teste será descrito usando o seguinte formato:
 
 ### Caso de Teste 1
 - **ID**: CT-001
-- **Descrição**: Verificar se o login é realizado com sucesso para credenciais válidas.
+- **Descrição**: Realizar cadastro de Passageiro
 - **Entradas**:
-  - Usuário: `testuser`
-  - Senha: `password123`
+  - Nome: `testuser`
+  - Endereço: `enderecoTest`
+  - Telefone: `(31) 9 9999-9999`
+  - Fidelidade: `s`
 - **Procedimento de Teste**:
-  1. Navegar para a página de login.
-  2. Inserir as credenciais válidas.
-  3. Clicar no botão "Login".
+  1. Selecionar a opção 1 no menu.
+  2. Inserir as informações.
 - **Saídas Esperadas**:
-  - O usuário é redirecionado para a página inicial.
-  - Uma mensagem de boas-vindas é exibida: "Bem-vindo, testuser!".
+  - Criação do código unico do passageiro.
+  - Salvar as informações no arquivo.
 
 ### Caso de Teste 2
 - **ID**: CT-002
-- **Descrição**: Testar comportamento do login com credenciais inválidas.
+- **Descrição**: Realizar cadastro de Tripulante (Piloto)
 - **Entradas**:
-  - Usuário: `wronguser`
-  - Senha: `wrongpassword`
+  - Nome: `testuser`
+  - Endereço: `enderecoTest`
+  - Telefone: `(31) 9 9999-9999`
+  - Cargo: `1`
 - **Procedimento de Teste**:
-  1. Navegar para a página de login.
-  2. Inserir credenciais inválidas.
-  3. Clicar no botão "Login".
+  1. Selecionar a opção 2 no menu.
+  2. Inserir as informações.
 - **Saídas Esperadas**:
-  - Uma mensagem de erro é exibida: "Usuário ou senha incorretos".
-  - O campo de senha é limpo.
+  - Criação do código unico do tripulante.
+  - Salvar as informações no arquivo.
+
+### Caso de Teste 3
+- **ID**: CT-003
+- **Descrição**: Realizar cadastro de Tripulante (Copiloto)
+- **Entradas**:
+  - Nome: `testuser`
+  - Endereço: `enderecoTest`
+  - Telefone: `(31) 9 9999-9999`
+  - Cargo: `2`
+- **Procedimento de Teste**:
+  1. Selecionar a opção 2 no menu.
+  2. Inserir as informações.
+- **Saídas Esperadas**:
+  - Criação do código unico do tripulante.
+  - Salvar as informações no arquivo.
+
+### Caso de Teste 4
+- **ID**: CT-004
+- **Descrição**: Realizar cadastro de Tripulante (Comissário)
+- **Entradas**:
+  - Nome: `testuser`
+  - Endereço: `enderecoTest`
+  - Telefone: `(31) 9 9999-9999`
+  - Cargo: `3`
+- **Procedimento de Teste**:
+  1. Selecionar a opção 2 no menu.
+  2. Inserir as informações.
+- **Saídas Esperadas**:
+  - Criação do código unico do tripulante.
+  - Salvar as informações no arquivo.
+ 
+### Caso de Teste 5
+- **ID**: CT-005
+- **Descrição**: Cadastro de Voo
+- **Entradas**:
+  - Origem: `Belo Horizonte`
+  - Destino: `Paris`
+  - Data: `31/12/2024`
+  - Hora: `13:00`
+  - Tarifa: `1000.00`
+  - Numero de Assentos: `100`
+  - Código do Piloto: `1`
+  - Código do Copiloto: `1`
+  - Código do Comissario: `1`
+- **Procedimento de Teste**:
+  1. Selecionar a opção 3 no menu.
+  2. Inserir as informações.
+- **Saídas Esperadas**:
+  - Criação do código unico do voo.
+  - Salvar as informações no arquivo.
 
 ---
 
