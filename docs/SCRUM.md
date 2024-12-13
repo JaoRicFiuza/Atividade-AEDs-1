@@ -101,7 +101,7 @@ Nesta Sprint, o foco principal foi:
 
 ## ✅ Tarefas Concluídas
 
-- Todas as tarefa foi concluída.
+- Todas as tarefas foram concluídas.
 
 ---
 
