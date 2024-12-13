@@ -69,3 +69,6 @@ O sistema gerencia as seguintes informações da companhia aérea:
 - **Armazenamento:** Arquivos binários
 - **Metodologia:** Scrum, com planejamento em sprints.
 
+---
+![Badge](https://img.shields.io/badge/status-ativo-brightgreen)
+
