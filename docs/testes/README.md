@@ -1,4 +1,4 @@
-# Planejamento dos Casos de Teste
+# Test Cases
 
 ## Caso de Teste 1  
 **ID:** CT-001  
