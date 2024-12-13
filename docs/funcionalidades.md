@@ -70,7 +70,7 @@ Representa uma reserva vinculando passageiro, voo e assento. (não possui métod
 - **cadastroPassageiro():** Realiza o cadastro de um novo passageiro.
 ### Gerenciamento de Tripulação
 
-## **2. 🛫Cadastro de Tripulação**
+## **2. 👨‍✈️Cadastro de Tripulação**
 **Descrição:** Permite ao usuário cadastrar um novo membro da tripulação (piloto, copiloto ou comissário).
 
 **Informações solicitadas:**
