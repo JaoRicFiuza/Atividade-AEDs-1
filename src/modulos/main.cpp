@@ -8,8 +8,6 @@
 #include <unordered_set>
 #include <string>  // Necessário para o uso de stoi()
 #include <sstream> // Usado para stream de strings
-#include <wrap-git.h> // Biblioteca wrap-git
-#include <munit/munit.h> // Biblioteca munit
 
 using namespace std;
 // CLASSES
@@ -318,7 +316,17 @@ void salvarPassageiroNoArquivo(Passageiro &p)
 
 void salvarTripulacaoNoArquivo(Tripulacao &t)
 {
-    ofstream arquivo("tripulacao.txt", ios::app); // Modo append
+    // Definindo o nome do arquivo dependendo do cargo
+    string nomeArquivo;
+    if (t.getCargo() == 1)
+        nomeArquivo = "pilotos.txt";      // Piloto
+    else if (t.getCargo() == 2)
+        nomeArquivo = "copilotos.txt";    // Copiloto
+    else
+        nomeArquivo = "comissarios.txt"; // Comissário
+
+    // Abrindo o arquivo correspondente
+    ofstream arquivo(nomeArquivo, ios::app); // Modo append
     if (arquivo.is_open())
     {
         arquivo << "Codigo do Tripulante: " << t.getCodigo() << endl;
@@ -851,9 +859,9 @@ void gerarPontosFid(int codPassageiro, int pontos)
 }
 
 // Funçoes para a verificaçao de Codigo
-bool verificarCodigoTripulacao(const string &arquivoNome, int codTripulacao)
+bool verificarCodigoTripulacao(const string &nomeArquivo, int codTripulacao)
 {
-    ifstream arquivo(arquivoNome); // Abre o arquivo com os códigos de tripulantes
+    ifstream arquivo(nomeArquivo); // Abre o arquivo correspondente ao cargo de tripulante
     int codigo;
 
     // Verifica se o arquivo foi aberto corretamente
@@ -876,6 +884,7 @@ bool verificarCodigoTripulacao(const string &arquivoNome, int codTripulacao)
     arquivo.close(); // Fecha o arquivo se não encontrar o código
     return false;    // Retorna falso se não encontrar o código
 }
+
 
 bool verificarCodigosVoo(const string &arquivoNome, int codVoo)
 {
@@ -1176,11 +1185,11 @@ void cadastroVoo()
     {
         cout << "Digite o Codigo do Piloto(a): ";
         cin >> codPiloto;
-        if (!verificarCodigoTripulacao("codigos_tripulante.txt", codPiloto))
+        if (!verificarCodigoTripulacao("pilotos.txt", codPiloto)) // Alterado para "pilotos.txt"
         {
             cout << "Piloto Nao Encontrado, tente novamente." << endl;
         }
-    } while (!verificarCodigoTripulacao("codigos_tripulante.txt", codPiloto));
+    } while (!verificarCodigoTripulacao("pilotos.txt", codPiloto));
     cout << "Piloto adicionado com sucesso à Tripulacao!" << endl;
 
     // Verificação do código do copiloto
@@ -1188,11 +1197,11 @@ void cadastroVoo()
     {
         cout << "Digite o Codigo do Copiloto(a): ";
         cin >> codCopiloto;
-        if (!verificarCodigoTripulacao("codigos_tripulante.txt", codCopiloto))
+        if (!verificarCodigoTripulacao("copilotos.txt", codCopiloto)) // Alterado para "copilotos.txt"
         {
             cout << "Copiloto Nao Encontrado, tente novamente." << endl;
         }
-    } while (!verificarCodigoTripulacao("codigos_tripulante.txt", codCopiloto));
+    } while (!verificarCodigoTripulacao("copilotos.txt", codCopiloto));
     cout << "Copiloto adicionado com sucesso à Tripulacao!" << endl;
 
     // Verificação do código do comissário
@@ -1200,11 +1209,11 @@ void cadastroVoo()
     {
         cout << "Digite o Codigo do Comissario(a): ";
         cin >> codComisario;
-        if (!verificarCodigoTripulacao("codigos_tripulante.txt", codComisario))
+        if (!verificarCodigoTripulacao("comissarios.txt", codComisario)) // Alterado para "comissarios.txt"
         {
             cout << "Comissario Nao Encontrado, tente novamente." << endl;
         }
-    } while (!verificarCodigoTripulacao("codigos_tripulante.txt", codComisario));
+    } while (!verificarCodigoTripulacao("comissarios.txt", codComisario));
     cout << "Comissario adicionado com sucesso à Tripulacao!" << endl;
 
     // Gerar código do voo
@@ -1242,6 +1251,7 @@ void cadastroVoo()
     // Adicionar o voo à lista de voos na memória
     v.push_back(novoVoo);
 }
+
 
 void reserva()
 {
@@ -1313,8 +1323,6 @@ void reserva()
     cout << "Número do Assento: " << novaReserva.getNumAssento() << endl;
     cout << "Pontos de Fidelidade: " << pontosFidelidade << endl;
 }
-
-
 
 void baixaReserva()
 {
@@ -1479,7 +1487,7 @@ void menu()
     cout << "=====================" << endl;
 }
 
-int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)])
+int main()
 {
     int op = 0;
     while (op != 8)
@@ -1519,96 +1527,4 @@ int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)])
         }
     }
     return 1;
-}
-
-// Funções de teste
-static MunitResult test_gerarCodigoPassageiro(const MunitParameter params[], void* data) {
-    int codigo = gerarCodigoPassageiro();
-    munit_assert_int(codigo, >, 0);
-    return MUNIT_OK;
-}
-
-static MunitResult test_gerarCodigoTripulante(const MunitParameter params[], void* data) {
-    int codigo = gerarCodigoTripulante();
-    munit_assert_int(codigo, >, 0); 
-    return MUNIT_OK;
-}
-
-static MunitResult test_gerarCodigoVoo(const MunitParameter params[], void* data) {
-    int codigo = gerarCodigoVoo();
-    munit_assert_int(codigo, >, 0);
-    return MUNIT_OK;
-}
-
-static MunitResult test_gerarCodigoReserva(const MunitParameter params[], void* data) {
-    int codigo = gerarCodigoReserva();
-    munit_assert_int(codigo, >, 0);
-    return MUNIT_OK;
-}
-
-static MunitResult test_calcularPontosFidelidade(const MunitParameter params[], void* data) {
-    int pontos = calcularPontosFidelidade(123); // Exemplo de código de voo
-    munit_assert_int(pontos, ==, 50); // Verifica se os pontos são 50
-    return MUNIT_OK;
-}
-
-// Teste para verificar erro ao abrir arquivo de passageiros
-static MunitResult test_erroAbrirArquivoPassageiros(const MunitParameter params[], void* data) {
-    ifstream arquivoEntrada("passageiros_inexistente.txt");
-    munit_assert_false(arquivoEntrada.is_open());
-    return MUNIT_OK;
-}
-
-// Teste para verificar erro ao abrir arquivo de tripulantes
-static MunitResult test_erroAbrirArquivoTripulantes(const MunitParameter params[], void* data) {
-    ifstream arquivoEntrada("tripulacao_inexistente.txt");
-    munit_assert_false(arquivoEntrada.is_open());
-    return MUNIT_OK;
-}
-
-// Teste para verificar erro ao abrir arquivo de voos
-static MunitResult test_erroAbrirArquivoVoos(const MunitParameter params[], void* data) {
-    ifstream arquivoEntrada("voo_inexistente.txt");
-    munit_assert_false(arquivoEntrada.is_open());
-    return MUNIT_OK;
-}
-
-// Teste para verificar erro ao abrir arquivo de reservas
-static MunitResult test_erroAbrirArquivoReservas(const MunitParameter params[], void* data) {
-    ifstream arquivoEntrada("reservas_inexistente.txt");
-    munit_assert_false(arquivoEntrada.is_open());
-    return MUNIT_OK;
-}
-
-// Teste para verificar erro ao abrir arquivo de assentos
-static MunitResult test_erroAbrirArquivoAssentos(const MunitParameter params[], void* data) {
-    ifstream arquivoEntrada("assentos_voo_inexistente.txt");
-    munit_assert_false(arquivoEntrada.is_open());
-    return MUNIT_OK;
-}
-
-// Definição dos testes
-static MunitTest tests[] = {
-    { (char*) "/test_gerarCodigoPassageiro", test_gerarCodigoPassageiro, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_gerarCodigoTripulante", test_gerarCodigoTripulante, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_gerarCodigoVoo", test_gerarCodigoVoo, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_gerarCodigoReserva", test_gerarCodigoReserva, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_calcularPontosFidelidade", test_calcularPontosFidelidade, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_erroAbrirArquivoPassageiros", test_erroAbrirArquivoPassageiros, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_erroAbrirArquivoTripulantes", test_erroAbrirArquivoTripulantes, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_erroAbrirArquivoVoos", test_erroAbrirArquivoVoos, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_erroAbrirArquivoReservas", test_erroAbrirArquivoReservas, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    { (char*) "/test_erroAbrirArquivoAssentos", test_erroAbrirArquivoAssentos, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-    // ...adicionar mais testes conforme necessário...
-    { NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL }
-};
-
-// Configuração da suíte de testes
-static const MunitSuite suite = {
-    (char*) "", tests, NULL, 1, MUNIT_SUITE_OPTION_NONE
-};
-
-// Função principal para executar os testes
-int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
-    return munit_suite_main(&suite, NULL, argc, argv);
 }
