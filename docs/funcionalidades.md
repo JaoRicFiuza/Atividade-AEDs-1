@@ -117,7 +117,6 @@ Representa uma reserva vinculando passageiro, voo e assento. (não possui métod
 - Verifica se o passageiro e o voo existem.
 - Verifica se o assento está disponível.
 
-- **baixaReserva():** (incompleta) Planejada para cancelar ou baixar reservas.
 
 ## **5. ❌Baixa em Reservas**
 **Descrição:** Permite ao usuário cancelar uma reserva existente.
@@ -130,8 +129,6 @@ Representa uma reserva vinculando passageiro, voo e assento. (não possui métod
 - Adiciona pontos de fidelidade ao passageiro.
 
 
-- **pesquisa():** (incompleta) Planejada para pesquisa de informações.
-
 ## **6. 🔎Pesquisa**
 **Descrição:** Permite ao usuário pesquisar informações sobre passageiros ou tripulantes.
 
@@ -139,8 +136,6 @@ Representa uma reserva vinculando passageiro, voo e assento. (não possui métod
 - Código do passageiro
 - Código do tripulante
 
-
-- **programaFid():** (incompleta) Planejada para consultar o programa de fidelidade.
 
 ## **7. 💲Consultar Programa de Fidelidade**
 **Descrição:** Exibe todos os passageiros que participam do programa de fidelidade.
