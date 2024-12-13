@@ -21,21 +21,13 @@ A Sprint inicial teve como foco principal:
 
 ---
 
-## 🚧 Tarefas em Progresso (2/6)
+## 🚧 Tarefas em Progresso (0/6)
 
-1. **Desenvolver funcionalidades relacionadas ao assento.**
-   - _Descrição:_ Implementação da lógica para gerenciar assentos no sistema, incluindo status de ocupação e alocação.
-   - Responsável: `João Ricardo Fiuza`
-   - Prioridade: Média
-
-2. **Documentação.**
-   - _Descrição:_ Criação de arquivos e relatórios para registrar os resultados e aprendizados da Sprint.
-   - Responsável: `Felipe Augusto Mendes Pereira`
-   - Prioridade: Baixa
+**Todas tarefas foram concluídas**
 
 ---
 
-## ✅ Tarefas Concluídas (4/6)
+## ✅ Tarefas Concluídas (6/6)
 
 1. **Criar UML do aplicativo.**
    - _Descrição:_ Estruturação dos componentes principais do sistema utilizando diagramas UML.
@@ -95,37 +87,21 @@ Nesta Sprint, o foco principal foi:
 
 ## 📋 Backlog
 
-**Tarefas pendentes (2/5):**
+**Tarefas pendentes (0/5):**
 
-1. **Desenvolver funcionalidades relacionadas ao voo.**
-   - Responsável: `João Pedro Maciel`
-   - Prioridade: Média
-
-2. **Desenvolver funcionalidades relacionadas à reserva.**
-   - Responsável: `João Pedro Maciel`
-   - Prioridade: Média
+**Todas tarefas foram concluídas**
 
 ---
 
-## 🚧 Tarefas em Progresso (3/5)
+## 🚧 Tarefas em Progresso (0/5)
 
-1. **Desenvolver funcionalidades relacionadas ao assento.**
-   - Responsável: `João Ricardo Fiuza`
-   - Prioridade: Alta
-
-2. **Documentação.**
-   - Responsável: `Felipe`
-   - Prioridade: Alta
-
-3. **Atualizar Repositório.**
-   - Responsável: `Gabriel Victor Souza Lopes`
-   - Prioridade: Baixa
+**Todas tarefas foram concluídas**
 
 ---
 
 ## ✅ Tarefas Concluídas
 
-- Nenhuma tarefa foi concluída até o momento.
+- Todas as tarefa foi concluída.
 
 ---
 
