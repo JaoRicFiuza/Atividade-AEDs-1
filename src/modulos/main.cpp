@@ -859,29 +859,30 @@ void gerarPontosFid(int codPassageiro, int pontos)
 }
 
 // Funçoes para a verificaçao de Codigo
-bool verificarCodigoTripulacao(const string &nomeArquivo, int codTripulacao)
+bool verificarCodigoTripulacao(const string &nomeArquivo, const int &codigoTripulante)
 {
     ifstream arquivo(nomeArquivo); // Abre o arquivo correspondente ao cargo de tripulante
-    int codigo;
+    string linha;
 
     // Verifica se o arquivo foi aberto corretamente
     if (!arquivo.is_open())
     {
-        erroArquivo();
+        erroArquivo(); // Trata o erro de abertura do arquivo
         return false;
     }
 
-    // Lê os códigos de tripulantes do arquivo e compara com o código fornecido
-    while (arquivo >> codigo)
+    // Lê o arquivo linha por linha
+    while (getline(arquivo, linha))
     {
-        if (codigo == codTripulacao)
+        // Verifica se a linha contém a string "Código do Tripulante:" seguida do código
+        if (linha.find("Código do Tripulante: " + codigoTripulante) != string::npos)
         {
-            arquivo.close(); // Fecha o arquivo após encontrar o código
+            arquivo.close(); // Fecha o arquivo após encontrar a string
             return true;     // Código encontrado
         }
     }
 
-    arquivo.close(); // Fecha o arquivo se não encontrar o código
+    arquivo.close(); // Fecha o arquivo se não encontrar a string
     return false;    // Retorna falso se não encontrar o código
 }
 
