@@ -8,6 +8,8 @@
 #include <unordered_set>
 #include <string>  // Necessário para o uso de stoi()
 #include <sstream> // Usado para stream de strings
+#include <wrap-git.h> // Biblioteca wrap-git
+#include <munit/munit.h> // Biblioteca munit
 
 using namespace std;
 // CLASSES
@@ -334,7 +336,7 @@ void salvarTripulacaoNoArquivo(Tripulacao &t)
         erroArquivo();
         if (arquivo.fail())
         {
-            cout << "Erro especifico ao tentar abrir o arquivo!" << endl;
+            cout << "Erro específico ao tentar abrir o arquivo!" << endl;
         }
     }
 }
@@ -349,7 +351,7 @@ void salvarVooNoArquivo(Voo &v)
         arquivo << "Hora do Voo: " << v.getHora() << endl;
         arquivo << "Origem do Voo: " << v.getOrigem() << endl;
         arquivo << "Destino do Voo: " << v.getDestino() << endl;
-        arquivo << "Codigo do Aviao: " << v.getCodAviao() << endl;
+        arquivo << "Codigo do Avião: " << v.getCodAviao() << endl;
         arquivo << "Codigo do Piloto: " << v.getCodPiloto() << endl;
         arquivo << "Codigo do Copiloto: " << v.getCodCopiloto() << endl;
         arquivo << "Codigo do Comissario(a): " << v.getCodComisario() << endl;
@@ -374,7 +376,7 @@ void salvarReservaNoArquivo(Reserva &r)
         arquivo << "Codigo do Passageiro: " << r.getCodPassageiro() << endl;
         arquivo << "Codigo do Voo: " << r.getCodVoo() << endl;
         arquivo << "Numero do Assento: " << r.getNumAssento() << endl;
-        arquivo << "-------------------------" << endl;
+        arquivo << "------------------------" << endl;
         arquivo.close();
         registradoArquivo();
     }
@@ -475,7 +477,7 @@ void salvarPontosFidNoArquivo(int codPassageiro, int pontos)
     else
     {
         // Caso o passageiro não seja encontrado
-        cout << "Passageiro com codigo " << codPassageiro << " não encontrado!" << endl;
+        cout << "Passageiro com código " << codPassageiro << " não encontrado!" << endl;
     }
 }
 
@@ -587,13 +589,15 @@ void atualizarPontosFidelidade(int codPassageiro, int pontos)
     }
     else
     {
-        cout << "Passageiro nao encontrado!" << endl;
+        cout << "Passageiro não encontrado!" << endl;
     }
 }
 
 // Função para calcular ponto de fidelidade
 int calcularPontosFidelidade(int codVoo)
 {
+
+
     int pontos = 50;  // Definindo pontos fixos para todos os voos
 
     return pontos;
@@ -678,11 +682,11 @@ int gerarCodigoTripulante()
     {
         arquivoSaida << novoCodigo << endl; // Adiciona o novo código ao final do arquivo
         arquivoSaida.close();
-        cout << "Novo codigo de tripulante gerado: " << novoCodigo << endl;
+        cout << "Novo código de tripulante gerado: " << novoCodigo << endl;
     }
     else
     {
-        cout << "Erro ao abrir o arquivo para salvar o codigo!" << endl;
+        cout << "Erro ao abrir o arquivo para salvar o código!" << endl;
     }
 
     return novoCodigo;
@@ -712,7 +716,7 @@ int gerarCodigoVoo()
     }
     else
     {
-        cout << "Erro ao abrir o arquivo de codigos de voo!" << endl;
+        cout << "Erro ao abrir o arquivo de códigos de voo!" << endl;
         return -1; // Retorna -1 caso não consiga abrir o arquivo
     }
 
@@ -729,11 +733,11 @@ int gerarCodigoVoo()
     {
         arquivoSaida << novoCodigo << endl; // Adiciona o novo código ao final do arquivo
         arquivoSaida.close();
-        cout << "Novo codigo de voo gerado: " << novoCodigo << endl;
+        cout << "Novo código de voo gerado: " << novoCodigo << endl;
     }
     else
     {
-        cout << "Erro ao abrir o arquivo para salvar o codigo de voo!" << endl;
+        cout << "Erro ao abrir o arquivo para salvar o código de voo!" << endl;
     }
 
     return novoCodigo;
@@ -759,7 +763,7 @@ int gerarCodigoReserva()
             }
             catch (const invalid_argument& e)
             {
-                cout << "Erro ao ler o codigo do arquivo: " << e.what() << endl;
+                cout << "Erro ao ler o código do arquivo: " << e.what() << endl;
             }
         }
         arquivoEntrada.close();
@@ -778,11 +782,11 @@ int gerarCodigoReserva()
     {
         arquivoSaida << novoCodigo << endl; // Adiciona o novo código ao final
         arquivoSaida.close();
-        cout << "Novo codigo de reserva gerado: " << novoCodigo << endl;
+        cout << "Novo código de reserva gerado: " << novoCodigo << endl;
     }
     else
     {
-        cout << "Erro ao abrir o arquivo para salvar o codigo de reserva!" << endl;
+        cout << "Erro ao abrir o arquivo para salvar o código de reserva!" << endl;
         return -1; // Caso ocorra erro ao abrir o arquivo
     }
 
@@ -837,7 +841,7 @@ void gerarPontosFid(int codPassageiro, int pontos)
         }
         else
         {
-            cout << "Passageiro nao encontrado." << endl;
+            cout << "Passageiro não encontrado." << endl;
         }
     }
     else
@@ -948,7 +952,7 @@ bool verificarStatusAssento(int codVoo, int numAssento)
         if (vooEncontrado && linha.find(to_string(numAssento) + ":") != string::npos)
         {
             // Verificar o status do assento
-            if (linha.find("Disponivel") != string::npos)
+            if (linha.find("Disponível") != string::npos)
             {
                 arquivo.close();
                 return true; // Assento disponível
@@ -1014,7 +1018,7 @@ void pesquisaArquivo(const string& tipo, const string& codBusca)
     {
         if (linha.find(codBusca) != string::npos)  // Encontrou o código na linha
         {
-            cout << "Informacoes encontradas: " << endl;
+            cout << "Informações encontradas: " << endl;
             cout << linha << endl;
             encontrado = true;
             linhasExibidas = 1;  // Já exibiu a linha com o código
@@ -1034,7 +1038,7 @@ void pesquisaArquivo(const string& tipo, const string& codBusca)
 
     if (!encontrado)
     {
-        cout << "Codigo " << codBusca << " nao encontrado no arquivo de " << tipo << "." << endl;
+        cout << "Código " << codBusca << " não encontrado no arquivo de " << tipo << "." << endl;
     }
 
     arquivo.close();
@@ -1310,6 +1314,8 @@ void reserva()
     cout << "Pontos de Fidelidade: " << pontosFidelidade << endl;
 }
 
+
+
 void baixaReserva()
 {
     int codReserva;
@@ -1473,7 +1479,7 @@ void menu()
     cout << "=====================" << endl;
 }
 
-int main()
+int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)])
 {
     int op = 0;
     while (op != 8)
@@ -1513,4 +1519,96 @@ int main()
         }
     }
     return 1;
+}
+
+// Funções de teste
+static MunitResult test_gerarCodigoPassageiro(const MunitParameter params[], void* data) {
+    int codigo = gerarCodigoPassageiro();
+    munit_assert_int(codigo, >, 0);
+    return MUNIT_OK;
+}
+
+static MunitResult test_gerarCodigoTripulante(const MunitParameter params[], void* data) {
+    int codigo = gerarCodigoTripulante();
+    munit_assert_int(codigo, >, 0); 
+    return MUNIT_OK;
+}
+
+static MunitResult test_gerarCodigoVoo(const MunitParameter params[], void* data) {
+    int codigo = gerarCodigoVoo();
+    munit_assert_int(codigo, >, 0);
+    return MUNIT_OK;
+}
+
+static MunitResult test_gerarCodigoReserva(const MunitParameter params[], void* data) {
+    int codigo = gerarCodigoReserva();
+    munit_assert_int(codigo, >, 0);
+    return MUNIT_OK;
+}
+
+static MunitResult test_calcularPontosFidelidade(const MunitParameter params[], void* data) {
+    int pontos = calcularPontosFidelidade(123); // Exemplo de código de voo
+    munit_assert_int(pontos, ==, 50); // Verifica se os pontos são 50
+    return MUNIT_OK;
+}
+
+// Teste para verificar erro ao abrir arquivo de passageiros
+static MunitResult test_erroAbrirArquivoPassageiros(const MunitParameter params[], void* data) {
+    ifstream arquivoEntrada("passageiros_inexistente.txt");
+    munit_assert_false(arquivoEntrada.is_open());
+    return MUNIT_OK;
+}
+
+// Teste para verificar erro ao abrir arquivo de tripulantes
+static MunitResult test_erroAbrirArquivoTripulantes(const MunitParameter params[], void* data) {
+    ifstream arquivoEntrada("tripulacao_inexistente.txt");
+    munit_assert_false(arquivoEntrada.is_open());
+    return MUNIT_OK;
+}
+
+// Teste para verificar erro ao abrir arquivo de voos
+static MunitResult test_erroAbrirArquivoVoos(const MunitParameter params[], void* data) {
+    ifstream arquivoEntrada("voo_inexistente.txt");
+    munit_assert_false(arquivoEntrada.is_open());
+    return MUNIT_OK;
+}
+
+// Teste para verificar erro ao abrir arquivo de reservas
+static MunitResult test_erroAbrirArquivoReservas(const MunitParameter params[], void* data) {
+    ifstream arquivoEntrada("reservas_inexistente.txt");
+    munit_assert_false(arquivoEntrada.is_open());
+    return MUNIT_OK;
+}
+
+// Teste para verificar erro ao abrir arquivo de assentos
+static MunitResult test_erroAbrirArquivoAssentos(const MunitParameter params[], void* data) {
+    ifstream arquivoEntrada("assentos_voo_inexistente.txt");
+    munit_assert_false(arquivoEntrada.is_open());
+    return MUNIT_OK;
+}
+
+// Definição dos testes
+static MunitTest tests[] = {
+    { (char*) "/test_gerarCodigoPassageiro", test_gerarCodigoPassageiro, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_gerarCodigoTripulante", test_gerarCodigoTripulante, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_gerarCodigoVoo", test_gerarCodigoVoo, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_gerarCodigoReserva", test_gerarCodigoReserva, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_calcularPontosFidelidade", test_calcularPontosFidelidade, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_erroAbrirArquivoPassageiros", test_erroAbrirArquivoPassageiros, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_erroAbrirArquivoTripulantes", test_erroAbrirArquivoTripulantes, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_erroAbrirArquivoVoos", test_erroAbrirArquivoVoos, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_erroAbrirArquivoReservas", test_erroAbrirArquivoReservas, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    { (char*) "/test_erroAbrirArquivoAssentos", test_erroAbrirArquivoAssentos, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+    // ...adicionar mais testes conforme necessário...
+    { NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL }
+};
+
+// Configuração da suíte de testes
+static const MunitSuite suite = {
+    (char*) "", tests, NULL, 1, MUNIT_SUITE_OPTION_NONE
+};
+
+// Função principal para executar os testes
+int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
+    return munit_suite_main(&suite, NULL, argc, argv);
 }
