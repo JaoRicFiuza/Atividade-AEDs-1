@@ -270,18 +270,18 @@ Nesta Sprint, utilizamos o framework Scrum para organizar e gerenciar o progress
 Exemplo do board utilizado para gerenciar o backlog e as tarefas em andamento:
 
 <div style="display: flex; justify-content: space-around; align-items: center; gap: 10px;">
-  <img src="/images/sprint1.png" alt="Board do Scrum - Parte 1" width="300px">
-  <img src="/images/sprint2.png" alt="Board do Scrum - Parte 2" width="300px">
-  <img src="/images/sprint3.png" alt="Board do Scrum - Parte 3" width="300px">
+  <img src="/images/sprint1.png" alt="Board do Scrum - Parte 1" height="300px">
+  <img src="/images/sprint2.png" alt="Board do Scrum - Parte 2" height="300px">
+  <img src="/images/sprint3.png" alt="Board do Scrum - Parte 3" height="300px">
 </div>
 
 ### 📝 Reuniões diárias
 Registro das reuniões diárias realizadas para alinhamento da equipe e acompanhamento do progresso:
 
 <div style="display: flex; justify-content: space-around; align-items: center; gap: 10px;">
-  <img src="/images/daily" alt="Daily Meetings - Parte 1" width="300px">
-  <img src="/images/code-review.png" alt="Daily Meetings - Parte 2" width="300px">
-  <img src="/images/dailyy.png" alt="Daily Meetings - Parte 3" width="300px">
+  <img src="/images/daily.jpg" alt="Daily Meetings - Parte 1" height="300px">
+  <img src="/images/code-review.png" alt="Daily Meetings - Parte 2" height="300px">
+  <img src="/images/dailyy.png" alt="Daily Meetings - Parte 3" height="300px">
 </div>
 
 
