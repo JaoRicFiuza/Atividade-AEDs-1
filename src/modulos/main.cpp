@@ -859,10 +859,11 @@ void gerarPontosFid(int codPassageiro, int pontos)
 }
 
 // Funçoes para a verificaçao de Codigo
-bool verificarCodigoTripulacao(const string &nomeArquivo, const int &codigoTripulante)
+bool verificarCodigoTripulacao(const string &nomeArquivo, int codTripulacao, int cargo)
 {
     ifstream arquivo(nomeArquivo); // Abre o arquivo correspondente ao cargo de tripulante
     string linha;
+    string cargoEsperado = (cargo == 1) ? "Piloto(a)" : (cargo == 2) ? "Copiloto(a)" : "Comissario(a)";
 
     // Verifica se o arquivo foi aberto corretamente
     if (!arquivo.is_open())
@@ -874,18 +875,27 @@ bool verificarCodigoTripulacao(const string &nomeArquivo, const int &codigoTripu
     // Lê o arquivo linha por linha
     while (getline(arquivo, linha))
     {
-        // Verifica se a linha contém a string "Código do Tripulante:" seguida do código
-        if (linha.find("Código do Tripulante: " + codigoTripulante) != string::npos)
+        // Procurar pela linha "Codigo do Tripulante" e extrair o código
+        if (linha.find("Codigo do Tripulante: " + to_string(codTripulacao)) != string::npos)
         {
-            arquivo.close(); // Fecha o arquivo após encontrar a string
-            return true;     // Código encontrado
+            // Ler o próximo bloco para comparar o cargo
+            getline(arquivo, linha); // Ignora a linha "Nome"
+            getline(arquivo, linha); // Ignora a linha "Endereco"
+            getline(arquivo, linha); // Ignora a linha "Telefone"
+            getline(arquivo, linha); // Lê a linha do cargo
+            
+            // Verifica se o cargo corresponde ao esperado
+            if (linha.find("Cargo: " + cargoEsperado) != string::npos)
+            {
+                arquivo.close(); // Fecha o arquivo após encontrar o código e o cargo
+                return true;     // Código e cargo válidos
+            }
         }
     }
 
-    arquivo.close(); // Fecha o arquivo se não encontrar a string
-    return false;    // Retorna falso se não encontrar o código
+    arquivo.close(); // Fecha o arquivo se não encontrar o código ou o cargo
+    return false;    // Retorna falso se não encontrar o código ou o cargo
 }
-
 
 bool verificarCodigosVoo(const string &arquivoNome, int codVoo)
 {
@@ -1186,11 +1196,11 @@ void cadastroVoo()
     {
         cout << "Digite o Codigo do Piloto(a): ";
         cin >> codPiloto;
-        if (!verificarCodigoTripulacao("pilotos.txt", codPiloto)) // Alterado para "pilotos.txt"
+        if (!verificarCodigoTripulacao("pilotos.txt", codPiloto, 1)) // 1 para Piloto
         {
-            cout << "Piloto Nao Encontrado, tente novamente." << endl;
+            cout << "Piloto Nao Encontrado ou Cargo Invalido, tente novamente." << endl;
         }
-    } while (!verificarCodigoTripulacao("pilotos.txt", codPiloto));
+    } while (!verificarCodigoTripulacao("pilotos.txt", codPiloto, 1)); // 1 para Piloto
     cout << "Piloto adicionado com sucesso à Tripulacao!" << endl;
 
     // Verificação do código do copiloto
@@ -1198,11 +1208,11 @@ void cadastroVoo()
     {
         cout << "Digite o Codigo do Copiloto(a): ";
         cin >> codCopiloto;
-        if (!verificarCodigoTripulacao("copilotos.txt", codCopiloto)) // Alterado para "copilotos.txt"
+        if (!verificarCodigoTripulacao("copilotos.txt", codCopiloto, 2)) // 2 para Copiloto
         {
-            cout << "Copiloto Nao Encontrado, tente novamente." << endl;
+            cout << "Copiloto Nao Encontrado ou Cargo Invalido, tente novamente." << endl;
         }
-    } while (!verificarCodigoTripulacao("copilotos.txt", codCopiloto));
+    } while (!verificarCodigoTripulacao("copilotos.txt", codCopiloto, 2)); // 2 para Copiloto
     cout << "Copiloto adicionado com sucesso à Tripulacao!" << endl;
 
     // Verificação do código do comissário
@@ -1210,11 +1220,11 @@ void cadastroVoo()
     {
         cout << "Digite o Codigo do Comissario(a): ";
         cin >> codComisario;
-        if (!verificarCodigoTripulacao("comissarios.txt", codComisario)) // Alterado para "comissarios.txt"
+        if (!verificarCodigoTripulacao("comissarios.txt", codComisario, 3)) // 3 para Comissário
         {
-            cout << "Comissario Nao Encontrado, tente novamente." << endl;
+            cout << "Comissario Nao Encontrado ou Cargo Invalido, tente novamente." << endl;
         }
-    } while (!verificarCodigoTripulacao("comissarios.txt", codComisario));
+    } while (!verificarCodigoTripulacao("comissarios.txt", codComisario, 3)); // 3 para Comissário
     cout << "Comissario adicionado com sucesso à Tripulacao!" << endl;
 
     // Gerar código do voo
@@ -1253,7 +1263,6 @@ void cadastroVoo()
     v.push_back(novoVoo);
 }
 
-
 void reserva()
 {
     int codPassageiro, codVoo, numAssento;
@@ -1277,7 +1286,7 @@ void reserva()
     cin >> codVoo;
 
     // Verificar se o voo existe (não fazemos mais verificação de voo internacional)
-    if (!verificarCodigo("voos.txt", codVoo))
+    if (!verificarCodigosVoo("voo.txt", codVoo))
     {
         cout << "Voo não encontrado! Tente novamente.\n";
         return;
@@ -1374,7 +1383,7 @@ void baixaReserva()
 
         if (reservaEncontrada)
         {
-            atualizarStatusAssento(codVoo, numAssento, false);
+            atualizarStatusAssento(codVoo, numAssento, true);
 
             cout << "Reserva de código " << codReserva << " baixada com sucesso!" << endl;
 
