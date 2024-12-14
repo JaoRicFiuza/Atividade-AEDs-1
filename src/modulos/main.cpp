@@ -492,20 +492,20 @@ void salvarPontosFidNoArquivo(int codPassageiro, int pontos)
 // Atualizar Informaçoes no arquivo.txt
 void atualizarStatusAssento(int codVoo, int numAssento, bool status)
 {
-    // Abra o arquivo de assentos
     ifstream arquivoEntrada("assentos_voo.txt");
     ofstream arquivoSaida("assentos_voo_temp.txt");
     string linha;
+    bool assentoAtualizado = false;
 
     if (arquivoEntrada.is_open() && arquivoSaida.is_open())
     {
-        bool assentoAtualizado = false;
         while (getline(arquivoEntrada, linha))
         {
             // Verifique se a linha contém o código do voo
             if (linha.find("Voo: " + to_string(codVoo)) != string::npos)
             {
-                // Processar os assentos
+                // Agora processa os assentos do voo até encontrar a linha "------------------------"
+                arquivoSaida << linha << endl; // Escreve a linha do código do voo no arquivo temporário
                 while (getline(arquivoEntrada, linha) && linha != "------------------------")
                 {
                     int num = 0;
@@ -514,19 +514,25 @@ void atualizarStatusAssento(int codVoo, int numAssento, bool status)
                     } catch (const invalid_argument& e) {
                         continue;
                     }
+
                     if (num == numAssento)
                     {
                         assentoAtualizado = true;
+                        // Atualiza o status do assento
                         arquivoSaida << num << ": " << (status ? "Ocupado" : "Disponível") << endl;
                     }
                     else
                     {
+                        // Caso não seja o assento a ser atualizado, escreve a linha original
                         arquivoSaida << linha << endl;
                     }
                 }
+                // Após a atualização, escreve a linha de separação
+                arquivoSaida << "------------------------" << endl;
             }
             else
             {
+                // Se não for o voo desejado, escreve a linha original
                 arquivoSaida << linha << endl;
             }
         }
@@ -534,7 +540,7 @@ void atualizarStatusAssento(int codVoo, int numAssento, bool status)
         arquivoEntrada.close();
         arquivoSaida.close();
 
-        // Substituir o arquivo de assentos pelo temporário
+        // Substitui o arquivo de assentos pelo temporário
         remove("assentos_voo.txt");
         rename("assentos_voo_temp.txt", "assentos_voo.txt");
 
@@ -559,6 +565,7 @@ void atualizarPontosFidelidade(int codPassageiro, int pontos)
     ofstream arquivoSaida("passageiros_temp.txt");
     string linha;
     bool encontrado = false;
+    bool pontosAtualizados = false;
 
     // Verifica se o arquivo foi aberto corretamente
     if (!arquivoEntrada.is_open() || !arquivoSaida.is_open())
@@ -573,15 +580,58 @@ void atualizarPontosFidelidade(int codPassageiro, int pontos)
         // Verifica se a linha contém o código do passageiro
         if (linha.find("Codigo do Passageiro: " + to_string(codPassageiro)) != string::npos)
         {
-            // Aqui você pode atualizar os pontos de fidelidade no arquivo
-            // Exemplo de manipulação simples (dependendo do formato do seu arquivo):
-            // Atualize a linha com os novos pontos de fidelidade
-            linha += "\nPontos de Fidelidade: " + to_string(pontos);  // Adiciona os pontos
-
             encontrado = true;
+            bool dentroDoBloco = true;
+
+            // Escreve a linha de código do passageiro
+            arquivoSaida << linha << endl;
+
+            // Processa as linhas seguintes até encontrar o bloco de informações do passageiro
+            while (getline(arquivoEntrada, linha) && dentroDoBloco)
+            {
+                // Verifica a linha de pontos de fidelidade
+                if (linha.find("Pontos de Fidelidade: ") != string::npos)
+                {
+                    int pontosAtuais = 0;
+                    try {
+                        pontosAtuais = stoi(linha.substr(linha.find(": ") + 2)); // Pega os pontos atuais
+                    } catch (const invalid_argument& e) {
+                        cout << "Erro ao ler os pontos de fidelidade." << endl;
+                        pontosAtuais = 0;
+                    }
+
+                    // Acumula os pontos ao valor atual
+                    pontosAtuais += pontos;
+
+                    // Atualiza a linha com os novos pontos
+                    linha = "Pontos de Fidelidade: " + to_string(pontosAtuais);
+                    pontosAtualizados = true;
+                }
+
+                // Se encontrar a linha de separação do bloco de dados do passageiro, termina o bloco
+                if (linha == "-------------------------")
+                {
+                    dentroDoBloco = false;
+                }
+
+                // Escreve a linha atualizada ou original no arquivo de saída
+                arquivoSaida << linha << endl;
+            }
+
+            // Se não encontrou a linha de pontos de fidelidade, adiciona os pontos
+            if (!pontosAtualizados)
+            {
+                arquivoSaida << "Pontos de Fidelidade: " << pontos << endl;
+            }
+
+            // Adiciona a linha de separação do bloco
+            arquivoSaida << "-------------------------" << endl;
         }
-        // Escreve as linhas no arquivo temporário
-        arquivoSaida << linha << endl;
+        else
+        {
+            // Escreve as outras linhas no arquivo temporário
+            arquivoSaida << linha << endl;
+        }
     }
 
     arquivoEntrada.close();
@@ -707,25 +757,35 @@ int gerarCodigoVoo()
     int ultimoCodigo = 0;
     unordered_set<int> codigosExistentes;
 
-    // Tenta ler os códigos do arquivo e verificar se o novo código é único
-    if (arquivoEntrada.is_open())
+    // Verifica se o arquivo existe, se não, cria o arquivo vazio
+    if (!arquivoEntrada.is_open())
     {
-        // Lê todos os códigos no arquivo e armazena no conjunto para verificação de duplicatas
+        // O arquivo não existe, então cria um arquivo vazio
+        arquivoSaida.open("codigos_Voo.txt", ios::out);
+        if (arquivoSaida.is_open())
+        {
+            arquivoSaida.close();  // Apenas cria o arquivo vazio e fecha
+            cout << "Arquivo codigos_Voo.txt não encontrado. Criando um novo arquivo..." << endl;
+        }
+        else
+        {
+            cout << "Erro ao criar o arquivo codigos_Voo.txt!" << endl;
+            return -1; // Retorna -1 caso não consiga criar o arquivo
+        }
+    }
+    else
+    {
+        // O arquivo existe, agora lê os códigos no arquivo e armazena os códigos existentes
         int codigo;
         while (arquivoEntrada >> codigo)
         {
-            codigosExistentes.insert(codigo); // Armazena todos os códigos no conjunto
+            codigosExistentes.insert(codigo); // Armazena os códigos no conjunto
             if (codigo > ultimoCodigo)
             {
                 ultimoCodigo = codigo; // Atualiza o último código encontrado
             }
         }
         arquivoEntrada.close();
-    }
-    else
-    {
-        cout << "Erro ao abrir o arquivo de códigos de voo!" << endl;
-        return -1; // Retorna -1 caso não consiga abrir o arquivo
     }
 
     // Incrementa o código até que ele seja único
@@ -736,7 +796,7 @@ int gerarCodigoVoo()
     }
 
     // Salva o novo código no arquivo
-    arquivoSaida.open("codigos_Voo.txt", ios::out | ios::app); // Abre para adicionar ao final do arquivo
+    arquivoSaida.open("codigos_Voo.txt", ios::app); // Abre para adicionar ao final do arquivo
     if (arquivoSaida.is_open())
     {
         arquivoSaida << novoCodigo << endl; // Adiciona o novo código ao final do arquivo
@@ -807,39 +867,57 @@ void gerarPontosFid(int codPassageiro, int pontos)
     ofstream arquivoSaida("passageiros_temp.txt");
     string linha;
     bool passageiroEncontrado = false;
+    bool pontosAtualizados = false;
 
     if (arquivoEntrada.is_open() && arquivoSaida.is_open())
     {
         while (getline(arquivoEntrada, linha))
         {
+            // Escreve a linha atual no arquivo temporário
             arquivoSaida << linha << endl;
+
+            // Verifica se encontrou o passageiro
             if (linha.find("Codigo do Passageiro: " + to_string(codPassageiro)) != string::npos)
             {
                 passageiroEncontrado = true;
+                // Processa as linhas subsequentes
                 while (getline(arquivoEntrada, linha) && linha != "-------------------------")
                 {
                     if (linha.find("Pontos de Fidelidade: ") != string::npos)
                     {
                         int pontosAtuais = 0;
                         try {
-                            pontosAtuais = stoi(linha.substr(linha.find(": ") + 2));
+                            pontosAtuais = stoi(linha.substr(linha.find(": ") + 2)); // Pega os pontos atuais
                         } catch (const invalid_argument& e) {
-                            continue;
+                            cout << "Erro ao ler os pontos de fidelidade." << endl;
+                            pontosAtuais = 0;
                         }
-                        pontosAtuais += pontos;
+
+                        pontosAtuais += pontos;  // Atualiza os pontos
+
+                        // Escreve os novos pontos de fidelidade no arquivo temporário
                         arquivoSaida << "Pontos de Fidelidade: " << pontosAtuais << endl;
+                        pontosAtualizados = true;
                     }
                     else
                     {
-                        arquivoSaida << linha << endl;
+                        arquivoSaida << linha << endl;  // Copia as linhas não modificadas
                     }
                 }
-                arquivoSaida << "-------------------------" << endl;
+
+                if (!pontosAtualizados) {
+                    // Se não encontrou a linha de pontos de fidelidade, adiciona a linha com os pontos
+                    arquivoSaida << "Pontos de Fidelidade: " << pontos << endl;
+                }
+
+                arquivoSaida << "-------------------------" << endl; // Adiciona a linha separadora
             }
         }
+
         arquivoEntrada.close();
         arquivoSaida.close();
 
+        // Substitui o arquivo original pelo temporário
         remove("passageiros.txt");
         rename("passageiros_temp.txt", "passageiros.txt");
 
@@ -854,7 +932,7 @@ void gerarPontosFid(int codPassageiro, int pontos)
     }
     else
     {
-        erroArquivo();
+        cout << "Erro ao abrir os arquivos!" << endl;
     }
 }
 
@@ -899,20 +977,21 @@ bool verificarCodigoTripulacao(const string &nomeArquivo, int codTripulacao, int
 
 bool verificarCodigosVoo(const string &arquivoNome, int codVoo)
 {
-    ifstream arquivo(arquivoNome); // Abre o arquivo com os códigos de tripulantes
-    int codigo;
+    ifstream arquivo(arquivoNome); // Abre o arquivo com os códigos de voos
+    string linha;
 
     // Verifica se o arquivo foi aberto corretamente
     if (!arquivo.is_open())
     {
-        erroArquivo();
+        cout << "Erro ao abrir o arquivo: " << arquivoNome << endl;
         return false;
     }
 
-    // Lê os códigos de tripulantes do arquivo e compara com o código fornecido
-    while (arquivo >> codigo)
+    // Lê o arquivo linha por linha
+    while (getline(arquivo, linha))
     {
-        if (codigo == codVoo)
+        // Verifica se a linha contém "Codigo do Voo: X"
+        if (linha.find("Codigo do Voo: " + to_string(codVoo)) != string::npos)
         {
             arquivo.close(); // Fecha o arquivo após encontrar o código
             return true;     // Código encontrado
@@ -1038,21 +1117,24 @@ void pesquisaArquivo(const string& tipo, const string& codBusca)
     {
         if (linha.find(codBusca) != string::npos)  // Encontrou o código na linha
         {
-            cout << "Informações encontradas: " << endl;
-            cout << linha << endl;
-            encontrado = true;
-            linhasExibidas = 1;  // Já exibiu a linha com o código
-            break;
-        }
-    }
+            if (!encontrado)  // Se for a primeira ocorrência, exibe uma mensagem
+            {
+                cout << "Informações encontradas: " << endl;
+                encontrado = true;
+            }
 
-    // Se o código foi encontrado, exibe as próximas 5 linhas
-    if (encontrado)
-    {
-        while (linhasExibidas < 5 && getline(arquivo, linha))  // Mostrar as próximas 5 linhas
-        {
-            cout << linha << endl;
+            cout << linha << endl;  // Exibe a linha com o código encontrado
             linhasExibidas++;
+
+            // Se o código for encontrado, tenta mostrar as próximas 5 linhas
+            while (linhasExibidas < 5 && getline(arquivo, linha)) 
+            {
+                cout << linha << endl;
+                linhasExibidas++;
+            }
+
+            // Podemos parar após exibir a primeira ocorrência e as 5 linhas seguintes
+            break;
         }
     }
 
@@ -1285,8 +1367,8 @@ void reserva()
     cout << "Digite o código do voo: ";
     cin >> codVoo;
 
-    // Verificar se o voo existe (não fazemos mais verificação de voo internacional)
-    if (!verificarCodigosVoo("voo.txt", codVoo))
+    // Verificar se o voo existe
+    if (!verificarCodigosVoo("voo.txt", codVoo))  // Arquivo corrigido para "output/voo.txt"
     {
         cout << "Voo não encontrado! Tente novamente.\n";
         return;
@@ -1319,8 +1401,7 @@ void reserva()
     int pontosFidelidade = calcularPontosFidelidade(codVoo);
     atualizarPontosFidelidade(codPassageiro, pontosFidelidade);
 
-    // Atualizar o status do assento no arquivo
-    atualizarStatusAssento(codVoo, numAssento, true);
+    
 
     // Salvar a reserva no arquivo
     salvarReservaNoArquivo(novaReserva);
@@ -1350,9 +1431,11 @@ void baixaReserva()
     {
         while (getline(arquivoEntrada, linha))
         {
+            // Verifica se encontrou o código da reserva
             if (linha.find("Codigo da Reserva: " + to_string(codReserva)) != string::npos)
             {
                 reservaEncontrada = true;
+                // Pula as 4 linhas seguintes para capturar os dados
                 for (int i = 0; i < 4; ++i)
                 {
                     getline(arquivoEntrada, linha);
@@ -1369,26 +1452,26 @@ void baixaReserva()
                         codPassageiro = stoi(linha.substr(linha.find(": ") + 2));
                     }
                 }
+                // Depois de ler as informações, não escreve nada no arquivo de saída para a reserva que está sendo baixada
             }
             else
             {
-                arquivoSaida << linha << endl;
+                arquivoSaida << linha << endl; // Escreve as outras linhas normalmente
             }
         }
+
         arquivoEntrada.close();
         arquivoSaida.close();
 
+        // Substitui o arquivo original com o temporário
         remove("reservas.txt");
         rename("reservas_temp.txt", "reservas.txt");
 
         if (reservaEncontrada)
         {
-            atualizarStatusAssento(codVoo, numAssento, true);
-
             cout << "Reserva de código " << codReserva << " baixada com sucesso!" << endl;
 
-            // Adicionar pontos de fidelidade
-            gerarPontosFid(codPassageiro, 10);
+            // Adiciona pontos de fidelidade ao passageiro
             salvarPontosFidNoArquivo(codPassageiro, 10);
         }
         else
@@ -1439,7 +1522,27 @@ void pesquisa()
             return;
         }
 
-        pesquisaArquivo("tripulacao", codBusca);
+        string cargo;
+        cout << "Digite o cargo do tripulante (piloto/copiloto/comissario): ";
+        cin >> cargo;
+
+        // Verificar se o cargo é válido e escolher o arquivo correspondente
+        if (cargo == "piloto")
+        {
+            pesquisaArquivo("pilotos", codBusca);
+        }
+        else if (cargo == "copiloto")
+        {
+            pesquisaArquivo("copilotos", codBusca);
+        }
+        else if (cargo == "comissario")
+        {
+            pesquisaArquivo("comissarios", codBusca);
+        }
+        else
+        {
+            cout << "Cargo inválido!" << endl;
+        }
     }
     else
     {
@@ -1449,35 +1552,46 @@ void pesquisa()
 
 void programaFid()
 {
+    int codBusca;
+    cout << "Digite o código do passageiro para verificar os pontos de fidelidade: ";
+    cin >> codBusca;
+
     ifstream arquivo("passageiros.txt");
     string linha;
-    bool fidelidadeEncontrada = false;
+    bool passageiroEncontrado = false;
 
     if (arquivo.is_open())
     {
         while (getline(arquivo, linha))
         {
-            if (linha.find("Fidelidade: Sim") != string::npos)
+            // Verifica se encontrou o código do passageiro
+            if (linha.find("Codigo do Passageiro: " + to_string(codBusca)) != string::npos)
             {
-                fidelidadeEncontrada = true;
+                passageiroEncontrado = true;
                 cout << "-------------------------" << endl;
-                cout << linha << endl;
+                cout << linha << endl;  // Exibe o código do passageiro
+
+                // Procurar os pontos de fidelidade para esse passageiro
                 while (getline(arquivo, linha) && linha != "-------------------------")
                 {
-                    cout << linha << endl;
+                    if (linha.find("Pontos de Fidelidade: ") != string::npos)
+                    {
+                        cout << linha << endl;  // Exibe os pontos de fidelidade
+                    }
                 }
+                break;  // Encerra a busca após encontrar o passageiro
             }
         }
         arquivo.close();
 
-        if (!fidelidadeEncontrada)
+        if (!passageiroEncontrado)
         {
-            cout << "Nenhum passageiro encontrado no programa de fidelidade." << endl;
+            cout << "Passageiro não encontrado no programa de fidelidade." << endl;
         }
     }
     else
     {
-        erroArquivo();
+        erroArquivo();  // Se não conseguiu abrir o arquivo
     }
 }
 
