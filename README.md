@@ -24,12 +24,14 @@ Este projeto foi desenvolvido como parte das disciplinas Fundamentos de Engenhar
 ---
 
 ## 🧑‍💻 Equipe
-| Nome                         | Função no Projeto                                            |
-|------------------------------|--------------------------------------------------------------|
-| Gabriel Victor Souza Lopes   | Cadastro de Passageiros, Organização do Repositório e Testes |
-| João Ricardo Fiuza           | Desenvolvimento do Modulo de assento                         |
-| João Pedro Maciel            | Cadastro de tripulação, Gerenciamento de voos                |
-| Felipe Augusto Mendes Pereira| Documentação                                                 |
+
+| Nome                          | Funções no Projeto                                                                                  |
+|-------------------------------|-----------------------------------------------------------------------------------------------------|
+| **Gabriel Victor Souza Lopes** | - Cadastro de Passageiros<br> - Organização do Repositório<br> - Resolução de bugs<br> - Documentação dos Test Cases<br> - Evolução do Backlog do Produto |
+| **João Ricardo Fiuza**         | - Documentação<br> - Cenários de Teste<br> - Implementação de Funções relacionadas a Assentos       |
+| **João Pedro Maciel**          | - Cadastro de Tripulação<br> - Gerenciamento de Voos<br> - Apresentação gravada em vídeo (Pitch)    |
+| **Felipe Augusto Mendes Pereira** | - Documentação<br> - Execução de Testes<br> - Planejamento dos Test Cases                                      |
+
 
 ---
 
