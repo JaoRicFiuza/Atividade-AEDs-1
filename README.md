@@ -7,6 +7,14 @@ Este projeto foi desenvolvido como parte das disciplinas Fundamentos de Engenhar
 
 ---
 
+## 📹 Demonstração do Sistema
+
+Clique no link abaixo para assistir ao vídeo da demonstração:
+
+[🎥 Assista à demonstração](https://youtu.be/MH21cWbnM4Y?si=D-r6MMFBydmJLRPG)
+
+---
+
 ## 📖 Tabela de Conteúdo
 1. [Professores Responsáveis](#professores-responsáveis)
 2. [Equipe](#equipe)
