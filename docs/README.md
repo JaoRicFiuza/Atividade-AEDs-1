@@ -17,6 +17,7 @@ A Sprint inicial teve como foco principal:
 ## 📋 Backlog
 
 **Tarefas pendentes (0/6):**
+
 - Nenhuma tarefa foi marcada como pendente para essa Sprint.
 
 ---
@@ -30,7 +31,7 @@ A Sprint inicial teve como foco principal:
 
 2. **Documentação.**
    - _Descrição:_ Criação de arquivos e relatórios para registrar os resultados e aprendizados da Sprint.
-   - Responsável: `Felipe Augusto Mendes Pereira`
+   - Responsável: `Felipe Augusto Mendes Pereira e João Ricardo Fiuza`
    - Prioridade: Baixa
 
 ---
@@ -178,8 +179,109 @@ Nesta Sprint, o foco principal foi:
 
 ## 🎯 Objetivos
 
-Nesta Sprint, o foco principal foi:
+Nesta Sprint final, os principais objetivos foram:
 
-- Continuar o desenvolvimento das funcionalidades básicas do sistema.
-- Melhorar a estrutura do repositório.
-- Avançar na documentação do projeto.
+- Resolver todos os bugs identificados nas etapas anteriores.
+- Finalizar os casos de teste automatizados para garantir a qualidade do sistema.
+- Preparar o sistema para entrega final, incluindo documentação completa e apresentação das funcionalidades.
+
+---
+
+## 📋 Backlog
+
+**Tarefas Pendentes (0/8):**
+
+- Nenhuma tarefa foi marcada como pendente para esta Sprint, todas foram concluídas com sucesso.
+
+---
+
+## ✅ Tarefas Concluídas (8/8)
+
+1. **Documentação das funcionalidades do software**
+   - _Descrição:_ Implementação da lógica para gerenciar o status de assentos, incluindo ocupação, liberação e associação a reservas no sistema.
+   - **Responsáveis:** Felipe Augusto Mendes Pereira e João Ricardo Fiuza
+   - **Prioridade:** Alta
+
+2. **Implementação dos casos de teste automatizados**
+   - _Descrição:_ Criação e implementação de casos de teste para verificar a funcionalidade do sistema, cobrindo cenários de cadastro, alteração e busca de informações.
+   - **Responsáveis:** Felipe Augusto Mendes Pereira e João Ricardo Fiuza
+   - **Prioridade:** Média
+
+3. **Correção de bugs identificados**
+   - _Descrição:_ Análise e solução de problemas no código que poderiam impactar a consistência de dados, como a alocação de assentos e a geração de códigos únicos.
+   - **Responsáveis:** Felipe Augusto Mendes Pereira
+   - **Prioridade:** Alta
+
+4. **Evolução do backlog do produto**
+   - _Descrição:_ Adição de funcionalidades que facilitam a busca e exibição de informações completas de passageiros e tripulantes cadastrados, utilizando critérios como código ou nome.
+   - **Responsáveis:** Gabriel Victor Souza Lopes
+   - **Prioridade:** Alta
+
+5. **Planejamento dos casos de teste**
+   - _Descrição:_ Definição de entradas, procedimentos e saídas esperadas para garantir a cobertura total das funcionalidades.
+   - **Responsáveis:** Gabriel Victor Souza Lopes e Felipe Augusto Mendes Pereira
+   - **Prioridade:** Alta
+
+6. **Atualização do repositório**
+   - _Descrição:_ Reorganização da estrutura do repositório, incluindo melhorias no uso de arquivos de configuração como `.gitignore` e revisão de commits anteriores.
+   - **Responsáveis:** Gabriel Victor Souza Lopes
+   - **Prioridade:** Alta
+
+7. **Apresentação gravada em vídeo (pitch)**
+   - _Descrição:_ Gravação de um pitch com a demonstração das funcionalidades implementadas no sistema.
+   - **Responsáveis:** João Pedro Maciel
+   - **Prioridade:** Alta
+
+8. **Finalização do programa de fidelidade**
+   - _Descrição:_ Implementação de funcionalidades para consultar, atualizar e visualizar pontos de fidelidade de passageiros, incluindo testes detalhados dessas operações.
+   - **Responsáveis:** Felipe Augusto Mendes Pereira e Gabriel Victor Souza Lopes
+   - **Prioridade:** Alta
+
+---
+
+## 🔍 Resultados Alcançados
+
+1. **Sistema funcional concluído:** Todas as funcionalidades planejadas foram implementadas com sucesso.
+2. **Casos de teste validados:** Testes realizados para garantir que o sistema está livre de bugs conhecidos.
+3. **Entrega final pronta:** Documentação concluída, repositório organizado e apresentação final preparada.
+
+---
+
+## 📌 Observações
+
+- Todos os bugs relatados foram corrigidos.
+- Os casos de teste abrangem todos os cenários principais.
+- O pitch gravado está disponível para apresentação da entrega final.
+
+---
+
+## 🖇 Links Relacionados
+
+- [Board do Scrum](https://github.com/users/JaoRicFiuza/projects/7/views/1)
+
+
+---
+
+## 📊 Evidências do Uso do Método Scrum
+
+Nesta Sprint, utilizamos o framework Scrum para organizar e gerenciar o progresso do projeto. Abaixo, apresentamos evidências do uso prático, incluindo o **board de tarefas**, **reuniões diárias** e **sprints planejadas e executadas**:
+
+### 📌 Board de Tarefas
+Exemplo do board utilizado para gerenciar o backlog e as tarefas em andamento:
+
+<div style="display: flex; justify-content: space-around; align-items: center; gap: 10px;">
+  <img src="/images/sprint1.png" alt="Board do Scrum - Parte 1" width="300px">
+  <img src="/images/sprint2.png" alt="Board do Scrum - Parte 2" width="300px">
+  <img src="/images/sprint3.png" alt="Board do Scrum - Parte 3" width="300px">
+</div>
+
+### 📝 Reuniões diárias
+Registro das reuniões diárias realizadas para alinhamento da equipe e acompanhamento do progresso:
+
+<div style="display: flex; justify-content: space-around; align-items: center; gap: 10px;">
+  <img src="/images/daily" alt="Daily Meetings - Parte 1" width="300px">
+  <img src="/images/code-review.png" alt="Daily Meetings - Parte 2" width="300px">
+  <img src="/images/dailyy.png" alt="Daily Meetings - Parte 3" width="300px">
+</div>
+
+
